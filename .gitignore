@@ -49,3 +49,7 @@ _freeze/
 
 /.quarto/
 
+
+# SEC の取得データ（公開データだが大きいので手元だけに置く）
+/data/raw/fundamentals/sec_company_facts/
+/data/raw/fundamentals/sec_xbrl/
