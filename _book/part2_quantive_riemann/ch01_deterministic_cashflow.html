@@ -1153,7 +1153,7 @@ y+\dfrac{1}{T}
 \approx
 -D_{\mathrm{mod}}\Delta y\]</span></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># VBA定義に合わせ、利回り Y は「%」単位で扱う。</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 利回り Y は「%」単位で扱う。</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 例: 6.71047990% は Y = 6.71047990。</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># P      : 単価（円 / 額面100円）</span></span>
@@ -1294,7 +1294,7 @@ y+\dfrac{1}{T}
 <span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a>tbl_vba_zero_yield <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a>tbl_zero_yield_risk <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
 <span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>item, <span class="sc">~</span>value,</span>
 <span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a>  <span class="st">"price_Y0"</span>, <span class="fu">compute_bond_price_example_LRL</span>(<span class="dv">0</span>),</span>
 <span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dP_dY_Y0"</span>, <span class="fu">compute_bond_price_derivative_example_LRL</span>(<span class="dv">0</span>),</span>
@@ -1309,8 +1309,8 @@ y+\dfrac{1}{T}
 <span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a>GaussQuant<span class="sc">::</span><span class="fu">show_tbl_GQH</span>(</span>
-<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a>  tbl_vba_zero_yield,</span>
-<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a>  <span class="st">"VBA定義：利回り0%の場合"</span></span>
+<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a>  tbl_zero_yield_risk,</span>
+<span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a>  <span class="st">"利回り0%の場合"</span></span>
 <span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 2</span></span>
 <span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   item                    value</span></span>
@@ -1385,7 +1385,7 @@ y+\dfrac{1}{T}
 <span id="cb10-230"><a href="#cb10-230" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-231"><a href="#cb10-231" aria-hidden="true" tabindex="-1"></a>GaussQuant<span class="sc">::</span><span class="fu">show_tbl_GQH</span>(</span>
 <span id="cb10-232"><a href="#cb10-232" aria-hidden="true" tabindex="-1"></a>  tbl_risk_compare,</span>
-<span id="cb10-233"><a href="#cb10-233" aria-hidden="true" tabindex="-1"></a>  <span class="st">"VBA定義とGaussQuantによる金利リスクの照合"</span></span>
+<span id="cb10-233"><a href="#cb10-233" aria-hidden="true" tabindex="-1"></a>  <span class="st">"解析式とGaussQuantによる金利リスクの照合"</span></span>
 <span id="cb10-234"><a href="#cb10-234" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb10-235"><a href="#cb10-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 3</span></span>
 <span id="cb10-236"><a href="#cb10-236" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   item              analytical_formula gaussquant</span></span>
@@ -1396,7 +1396,7 @@ y+\dfrac{1}{T}
 <span id="cb10-241"><a href="#cb10-241" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 bpv_yen_per_bp               0.15142    0.15142</span></span>
 <span id="cb10-242"><a href="#cb10-242" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 bpv_sen_per_bp              15.142     15.142</span></span>
 <span id="cb10-243"><a href="#cb10-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-244"><a href="#cb10-244" aria-hidden="true" tabindex="-1"></a>tbl_vba_derivatives <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb10-244"><a href="#cb10-244" aria-hidden="true" tabindex="-1"></a>tbl_pct_unit_derivatives <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
 <span id="cb10-245"><a href="#cb10-245" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>item, <span class="sc">~</span>value,</span>
 <span id="cb10-246"><a href="#cb10-246" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dP_dY_yen_per_1pct"</span>, formula_price_derivative,</span>
 <span id="cb10-247"><a href="#cb10-247" aria-hidden="true" tabindex="-1"></a>  <span class="st">"d2P_dY2_yen_per_pct2"</span>, formula_price_second_derivative,</span>
@@ -1406,8 +1406,8 @@ y+\dfrac{1}{T}
 <span id="cb10-251"><a href="#cb10-251" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb10-252"><a href="#cb10-252" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-253"><a href="#cb10-253" aria-hidden="true" tabindex="-1"></a>GaussQuant<span class="sc">::</span><span class="fu">show_tbl_GQH</span>(</span>
-<span id="cb10-254"><a href="#cb10-254" aria-hidden="true" tabindex="-1"></a>  tbl_vba_derivatives,</span>
-<span id="cb10-255"><a href="#cb10-255" aria-hidden="true" tabindex="-1"></a>  <span class="st">"VBAの%単位による微分量"</span></span>
+<span id="cb10-254"><a href="#cb10-254" aria-hidden="true" tabindex="-1"></a>  tbl_pct_unit_derivatives,</span>
+<span id="cb10-255"><a href="#cb10-255" aria-hidden="true" tabindex="-1"></a>  <span class="st">"%単位による微分量"</span></span>
 <span id="cb10-256"><a href="#cb10-256" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb10-257"><a href="#cb10-257" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 5 × 2</span></span>
 <span id="cb10-258"><a href="#cb10-258" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   item                           value</span></span>
@@ -1425,7 +1425,7 @@ y+\dfrac{1}{T}
 </section>
 <section id="ii-1.7.4-bpvによる価格感応度" class="level3">
 <h3 class="anchored" data-anchor-id="ii-1.7.4-bpvによる価格感応度">II-1.7.4 BPVによる価格感応度</h3>
-<p>本章ではVBAの定義に合わせ、複利利回り <span class="math inline">\(Y\)</span> を <strong>%単位</strong>で扱う。したがって、<span class="math inline">\(Y=6.71047990\)</span> は6.71047990%を意味する。</p>
+<p>本章では複利利回り <span class="math inline">\(Y\)</span> を <strong>%単位</strong>で扱う。したがって、<span class="math inline">\(Y=6.71047990\)</span> は6.71047990%を意味する。</p>
 <p>単価 <span class="math inline">\(P\)</span> を「円／額面100円」で表すと、</p>
 <p><span class="math display">\[\mathrm{BPV}
 =
@@ -1441,7 +1441,7 @@ y+\dfrac{1}{T}
 =
 -\frac{100}{P}
 \frac{\partial P}{\partial Y}\]</span></p>
-<p>となる。VBAで%単位の微分値を扱う場合には、この100倍の換算を明示する必要がある。</p>
+<p>となる。%単位の微分値を扱う場合には、この100倍の換算を明示する必要がある。</p>
 </section>
 </section>
 <section id="ii-1.8-数値解法による複利利回りの計算" class="level2">
@@ -1503,7 +1503,7 @@ P_{\mathrm{market}}
 </div>
 <p>同じ40年債について、複利利回り <span class="math inline">\(y\)</span> から計算される価格関数を定義する。</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 数値解法でもVBAと同じく、複利利回りは%単位で扱う。</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 数値解法でも、複利利回りは%単位で扱う。</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 例: 6.71047990% -&gt; yield_pct = 6.71047990</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>compute_bond_price_benchmark_LRL <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
@@ -1544,7 +1544,7 @@ P_{\mathrm{market}}
 y_k
 -
 \frac{f(y_k)}{f'(y_k)}\]</span></p>
-<p>ここではVBAと同じく <span class="math inline">\(Y\)</span> を <strong>%単位</strong>で扱う。つまり、6.71047990% は <span class="math inline">\(Y=6.71047990\)</span> とする。小数表記の <span class="math inline">\(0.067104799\)</span> ではない点が重要である。</p>
+<p>ここでは <span class="math inline">\(Y\)</span> を <strong>%単位</strong>で扱う。つまり、6.71047990% は <span class="math inline">\(Y=6.71047990\)</span> とする。小数表記の <span class="math inline">\(0.067104799\)</span> ではない点が重要である。</p>
 <p>半年複利の割引係数を</p>
 <p><span class="math display">\[\alpha=
 \left(
@@ -1566,13 +1566,13 @@ y_k
 <p>また、<span class="math inline">\(Y=0\)</span> の場合は</p>
 <p><span class="math display">\[P=100+CT\]</span></p>
 <p>となる。</p>
-<p>この価格関数を、%単位の利回り <span class="math inline">\(Y\)</span> で微分する。VBAではBPVを</p>
+<p>この価格関数を、%単位の利回り <span class="math inline">\(Y\)</span> で微分する。BPVを</p>
 <p><span class="math display">\[\boxed{
 \mathrm{BPV}
 =
 -\frac{\partial P}{\partial Y}
 }\]</span></p>
-<p>と定義している。</p>
+<p>と定義する。</p>
 <p>ここで <span class="math inline">\(\partial P/\partial Y\)</span> の単位は「円／1 percentage point」である。すなわち、利回りが1.00%変化したときの、額面100円あたりの単価変化を表す。</p>
 <p>一方、</p>
 <p><span class="math display">\[1\mathrm{bp}=0.01\%\]</span></p>
@@ -1633,7 +1633,7 @@ y_k
 \approx
 0.151421\ \text{円}/\mathrm{bp}\]</span></p>
 <p>となる。</p>
-<p>同様に、Convexityでは価格関数の2階微分を用いる。VBAの定義では <span class="math inline">\(Y\)</span> を%単位で扱うため、</p>
+<p>同様に、Convexityでは価格関数の2階微分を用いる。<span class="math inline">\(Y\)</span> を%単位で扱うため、</p>
 <p><span class="math display">\[\mathrm{Convexity}_{\%}
 =
 \frac{1}{P+\mathrm{Acc}}
@@ -1671,7 +1671,7 @@ y_k
 </section>
 <section id="y0-の場合" class="level3">
 <h3 class="anchored" data-anchor-id="y0-の場合"><span class="math inline">\(Y=0\)</span> の場合</h3>
-<p>VBAでは <span class="math inline">\(Y=0\)</span> を別ケースとして明示的に扱う。半年複利の割引係数は</p>
+<p><span class="math inline">\(Y=0\)</span> は別ケースとして明示的に扱う。半年複利の割引係数は</p>
 <p><span class="math display">\[\alpha=
 \left(
 1+\frac{Y}{200}
@@ -1709,7 +1709,7 @@ T
 +
 T
 }\]</span></p>
-<p>となり、この数値はVBAの単位規約ではそのまま銭／bpである。</p>
+<p>となり、この数値はそのまま銭／bpである。</p>
 <p>2階微分は、</p>
 <p><span class="math display">\[\boxed{
 \left.
@@ -1761,7 +1761,7 @@ D_{\mathrm{mod},Y=0}
 \alpha=
 \left(1+\frac{Y}{200}\right)^{-1}\]</span></p>
 <p>を直接微分する。</p>
-<p>VBAで使用する1階微分は、</p>
+<p>使用する1階微分は、</p>
 <p><span class="math display">\[\boxed{
 \frac{\partial P}{\partial Y}
 =
@@ -1792,7 +1792,7 @@ T\alpha^{2T+1}
 }\]</span></p>
 <p>となる。</p>
 <p>これにより、価格 <span class="math inline">\(P\)</span>、BPV、Modified Duration、Convexityをすべて同一の価格関数と同一の%単位規約から計算できる。</p>
-<p>さらに、一般的なModified Durationは利回りを小数単位で定義するため、VBAの%単位微分との関係は</p>
+<p>さらに、一般的なModified Durationは利回りを小数単位で定義するため、%単位微分との関係は</p>
 <p><span class="math display">\[D_{\mathrm{mod}}
 =
 -\frac{100}{P+\mathrm{Acc}}
@@ -1817,7 +1817,7 @@ P(Y_n)-P_{\mathrm{market}}
 }\]</span></p>
 <p>と更新する。この式では <span class="math inline">\(Y\)</span> 自体が%単位なので、途中で <span class="math inline">\(10^{-4}\)</span> や100を追加で掛ける必要はない。</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ニュートン・ラフソン法は、VBAと同じ解析微分 dP/dY をそのまま使用する。</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ニュートン・ラフソン法は、解析微分 dP/dY をそのまま使用する。</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Yの単位は%なので、更新式にも追加の1e-4換算は不要。</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>compute_bond_yield_newton_LRL <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
@@ -1873,7 +1873,7 @@ P(Y_n)-P_{\mathrm{market}}
 <span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>GaussQuant<span class="sc">::</span><span class="fu">show_tbl_GQH</span>(</span>
 <span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>  tbl_newton_check,</span>
-<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ニュートン・ラフソン法：VBA解析微分による複利利回り計算"</span></span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ニュートン・ラフソン法：解析微分による複利利回り計算"</span></span>
 <span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 2</span></span>
 <span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   item                  value</span></span>
@@ -2139,10 +2139,10 @@ P(Y_n)-P_{\mathrm{market}}
 <span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   method                   compound_yield_pct calculation_time_ms</span></span>
 <span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;                    &lt;chr&gt;              &lt;chr&gt;              </span></span>
 <span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Brent法（uniroot）       6.710480           0.14               </span></span>
-<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 ニュートン・ラフソン法   6.710480           0.28               </span></span>
-<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 二分法                   6.710480           0.68               </span></span>
-<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 GaussQuant               6.710479           1.54               </span></span>
-<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 多項式求根法（polyroot） 6.710480           1.68</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-106"><a href="#cb18-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 ニュートン・ラフソン法   6.710480           0.38               </span></span>
+<span id="cb18-107"><a href="#cb18-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 二分法                   6.710480           0.94               </span></span>
+<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 GaussQuant               6.710479           1.88               </span></span>
+<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 多項式求根法（polyroot） 6.710480           2.00</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>以上の結果から、本例では Brent法 → ニュートン・ラフソン法 → 二分法 → polyroot の順に高速な結果となった。Brent法は二分法の安定性と補間法の高速性を組み合わせた手法であり、本例のように価格関数が利回りに対して滑らかで単調な問題では特に有効である。一方、ニュートン・ラフソン法は解析微分を必要とするものの高い収束性能を持ち、二分法は計算速度では劣るものの安定性に優れる。polyrootは規則的なキャッシュフローでは利用できるが、本例の40年債では80次多項式となるため計算負荷が大きくなる。</p>
 <p>GaussQuantも同じ40年債、同じクリーンプライスを入力としている。ただし、単純な価格式だけを解く自作アルゴリズムとは異なり、債券オブジェクト、利払スケジュール、日数計算規則、価格種別などのマーケットコンベンションを含めて処理する。そのため、速度差には求根法そのものの差だけでなく、実務的な債券評価処理のオーバーヘッドも含まれる。</p>
