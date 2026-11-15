@@ -1,11 +1,11 @@
 # utility_LFL.R
-# LagrangeFinance utility functions
+# Coral Book utility functions
 
 create_lagrange_theme_LFL <- function(base_size = 12) {
   ggthemes::theme_economist(base_size = base_size)
 }
 
-#' Add the LagrangeFinance ggplot theme
+#' Add the Coral Book ggplot theme
 #'
 #' @param plot_object A ggplot object.
 #' @param base_size Base font size.
@@ -109,7 +109,7 @@ write_derived_csv_file_LFL <- function(
       if (length(vec_project_match) == 0L) {
         stop(
           paste0(
-            "LagrangeFinance project root ",
+            "Coral Book project root ",
             "could not be identified."
           ),
           call. = FALSE
@@ -188,7 +188,7 @@ find_project_dir_LFL <- function() {
   hit <- candidates[file.exists(file.path(candidates, "_quarto.yml"))]
 
   if (!length(hit))
-    stop("LagrangeFinance project root was not found.", call. = FALSE)
+    stop("Coral Book project root was not found.", call. = FALSE)
 
   normalizePath(hit[1], winslash = "/", mustWork = TRUE)
 }
@@ -1515,7 +1515,7 @@ read_derived_csv_file_LFL <- function(
     if (length(vec_project_dir) == 0L) {
       stop(
         paste0(
-          "LagrangeFinance project root could not be found from: ",
+          "Coral Book project root could not be found from: ",
           getwd()
         ),
         call. = FALSE
@@ -1797,7 +1797,7 @@ read_derived_parquet_file_LFL <- function(
 download_public_file_LFL <- function(
     url,
     destination,
-    user_agent = "LagrangeFinance-research",
+    user_agent = "CoralBook-research",
     overwrite = FALSE
 ) {
   if (!is.character(url) || length(url) != 1L || !grepl("^https://", url)) {
@@ -2461,7 +2461,7 @@ get_gafam_companies_LFL <- function() {
 
 # The User-Agent sent to SEC EDGAR, which asks automated clients for a contact.
 .sec_user_agent_LFL <- function() {
-  Sys.getenv("SEC_USER_AGENT", "LagrangeFinance research besuke.poripori@gmail.com")
+  Sys.getenv("SEC_USER_AGENT", "CoralBook research besuke.poripori@gmail.com")
 }
 
 

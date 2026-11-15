@@ -17,10 +17,8 @@ _freeze/
 # 完成版のPDFをGit管理する
 !/_pdf_build/
 !/_pdf_build/lagrange-finance.pdf
+!/_pdf_build/coral-book.pdf
 
-# 完成版の対象外PDFをGit管理する
-!/_pdf_exclude_build/
-!/_pdf_exclude_build/lagrange-finance-exclude.pdf
 !/images/
 !/docs/CURIE_Mockup_Overview.pdf
 

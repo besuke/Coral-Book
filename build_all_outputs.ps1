@@ -3,7 +3,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$ProjectRoot = "C:\AnalyticFin\Projects\LagrangeFinance"
+$ProjectRoot = "C:\AnalyticFin\Projects\coral-book"
 
 Set-Location $ProjectRoot
 
@@ -40,33 +40,12 @@ function Test-ProtectedPath([string]$Path) {
 
 Write-Step "0. Fix and validate PDF profiles"
 
-$excludeProfile = Join-Path $ProjectRoot "_quarto-pdf-exclude.yml"
 $normalProfile  = Join-Path $ProjectRoot "_quarto-pdf.yml"
 $utf8NoBom      = [System.Text.UTF8Encoding]::new($false)
-
-if (-not (Test-Path -LiteralPath $excludeProfile)) {
-  throw "Missing profile: $excludeProfile"
-}
 
 if (-not (Test-Path -LiteralPath $normalProfile)) {
   throw "Missing profile: $normalProfile"
 }
-
-
-# ----- Exclude PDF profile -----
-
-$excludeText = [System.IO.File]::ReadAllText(
-  $excludeProfile,
-  [System.Text.Encoding]::UTF8
-)
-
-$excludeText = $excludeText -replace '^\s+project:', 'project:'
-
-[System.IO.File]::WriteAllText(
-  $excludeProfile,
-  $excludeText,
-  $utf8NoBom
-)
 
 
 # ----- Normal PDF profile -----
@@ -83,7 +62,7 @@ project:
   output-dir: _pdf_build
 
 book:
-  output-file: "lagrange-finance"
+  output-file: "coral-book"
 
 "@
 
@@ -132,23 +111,6 @@ Assert-LastExitCode "Normal PDF build failed."
 
 
 # ============================================================
-# 3. Exclude PDF
-# ============================================================
-
-Write-Step "3. Build Exclude PDF"
-
-Remove-Item `
-  (Join-Path $ProjectRoot "_pdf_exclude_build") `
-  -Recurse `
-  -Force `
-  -ErrorAction SilentlyContinue
-
-quarto render --profile pdf-exclude --to pdf
-
-Assert-LastExitCode "Exclude PDF build failed."
-
-
-# ============================================================
 # 4. Validate outputs
 # ============================================================
 
@@ -156,8 +118,7 @@ Write-Step "4. Validate outputs"
 
 $outputs = @(
   (Join-Path $ProjectRoot "_book\index.html"),
-  (Join-Path $ProjectRoot "_pdf_build\lagrange-finance.pdf"),
-  (Join-Path $ProjectRoot "_pdf_exclude_build\lagrange-finance-exclude.pdf")
+  (Join-Path $ProjectRoot "_pdf_build\coral-book.pdf")
 )
 
 foreach ($file in $outputs) {
@@ -179,7 +140,6 @@ Write-Step "5. Clean intermediate files"
 $script:protectedDirectories = @(
   (Join-Path $ProjectRoot "_book"),
   (Join-Path $ProjectRoot "_pdf_build"),
-  (Join-Path $ProjectRoot "_pdf_exclude_build"),
   (Join-Path $ProjectRoot ".git")
 )
 
@@ -274,7 +234,7 @@ if ($gitStatus) {
   Assert-LastExitCode "git add failed."
 
   $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm"
-  $commitMessage = "Build LagrangeFinance $timestamp"
+  $commitMessage = "Build Coral Book $timestamp"
 
   Write-Host "`nCommit: $commitMessage" -ForegroundColor Cyan
 

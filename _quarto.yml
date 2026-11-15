@@ -3,11 +3,11 @@ project:
   execute-dir: project
 
 book:
-  title: "エンタープライズ金融モデル構築"
-  subtitle: "Rによるデータモデリング・金融工学・並列分散コンピュータ自動微分"
+  title: "金融工学の応用基礎"
+  subtitle: "Coral Book ─ Rによるデータモデリング・金融工学・並列分散コンピュータ自動微分"
   author: "Eiichi Horigome"
   cover-image: images/cover.png
-  output-file: "lagrangeFinance"
+  output-file: "coral-book"
 
   chapters:
     - index.qmd
@@ -38,19 +38,12 @@ book:
         - part2_quantive_riemann/ch08_early_redemption_models.qmd
         - part2_quantive_riemann/ch09_exotic_derivatives_prdc.qmd
 
-    - part: "第III部　エンタープライゼーション"
-      chapters:
-        - part3_enterprise_riemann/ch01_computational_evolution_parallel.qmd
-        - part3_enterprise_riemann/ch02_distributed_computing_jobtask.qmd
-        - part3_enterprise_riemann/ch03_enterprise_financial_computing.qmd
-        - part3_enterprise_riemann/ch04_automatic_differentiation.qmd
-        - part3_enterprise_riemann/ch05_option_greeks_autodiff.qmd
-        - part3_enterprise_riemann/ch06_interest_rate_risk_autodiff.qmd
-        - part3_enterprise_riemann/ch07_prdc_autodiff.qmd
+    # 第III部「エンタープライゼーション」の本文は Carmine Studio に移した（2026-11-15）。
+    # 原稿は part3_enterprise_riemann/ に残す（目次には載せない）。
 
 format:
   html:
-    theme: cosmo
+    theme: [cosmo, coral.scss]
     toc: true
     code-fold: false
     number-sections: false

@@ -1,8 +1,8 @@
 @echo off
-cd /d C:\AnalyticFin\Projects\LagrangeFinance
+cd /d C:\AnalyticFin\Projects\coral-book
 
 echo.
-echo === LagrangeFinance Full Build ===
+echo === Coral Book Full Build ===
 echo.
 
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0build_all_outputs.ps1" -Open

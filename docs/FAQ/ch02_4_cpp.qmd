@@ -16,7 +16,7 @@ editor:
 ---
 
 本稿は
-[GitHubの日本語問題集](https://github.com/besuke/LagrangeFinance/blob/cbce371663451dd595b5ced343b36cae589512a2/docs/quant_questions_ja.qmd)
+[GitHubの日本語問題集](https://github.com/besuke/coral-book/blob/cbce371663451dd595b5ced343b36cae589512a2/docs/quant_questions_ja.qmd)
 に基づく学習用の独自解答であり、原著の公式解答ではありません。問題番号は元ファイルに対応します。前提が不足する場合は解説で補います。数式はLaTeX、コードは自動実行しない設定です。
 
 ## 第1問

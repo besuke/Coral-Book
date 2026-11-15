@@ -764,7 +764,7 @@ tbl_mbs_rate_paths <- tibble::tibble(
   short_rate = as.vector(t(mbs_short_rates))
 )
 
-# LagrangeFinance共通テーマで金利パスを表示
+# Coral Book共通テーマで金利パスを表示
 plot_mbs_rate_paths <- ggplot2::ggplot(
   tbl_mbs_rate_paths,
   ggplot2::aes(

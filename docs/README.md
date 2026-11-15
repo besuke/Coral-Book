@@ -19,4 +19,4 @@
 
 原問題に条件不足がある設問では、必要な仮定と別解釈を説明しました。これは独自の学習用解答であり、原著の公式解答ではありません。
 
-元ファイル：besuke/LagrangeFinance、docs/quant_questions_ja.qmd。読取コミット：cbce371663451dd595b5ced343b36cae589512a2。
+元ファイル：besuke/coral-book（旧 besuke/LagrangeFinance）、docs/quant_questions_ja.qmd。読取コミット：cbce371663451dd595b5ced343b36cae589512a2。

@@ -1,6 +1,6 @@
 関数名・参照先修正版（b04be93対応）
 
-ZIP内のRフォルダを、LagrangeFinanceプロジェクトのRフォルダに上書きしてください。
+ZIP内のRフォルダを、Coral Book（coral-book）プロジェクトのRフォルダに上書きしてください。
 既存のExcelは変更しません。
 
 関数名：

@@ -1,11 +1,11 @@
-# Unified executable sample. Run from the LagrangeFinance project root.
+# Unified executable sample. Run from the Coral Book project root.
 # Switch sections independently. ALL bonds / FX / CCS basis and demo offers are synthetic.
 run_asset_swap <- TRUE
 run_worksheet_demo <- TRUE
 run_historical <- FALSE  # retained 2022-08-19 benchmark
 run_ccs_checks <- FALSE  # retained deterministic PV identity checks
 
-# Unified sample: run this ONE file from the LagrangeFinance project root.
+# Unified sample: run this ONE file from the Coral Book project root.
 # Market observations: 2026-10-06. Bonds / FX / basis below are test assumptions.
 library(GaussQuant)
 library(dplyr)

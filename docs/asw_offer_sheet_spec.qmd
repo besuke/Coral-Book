@@ -1,7 +1,7 @@
 ---
 title: "ASW・オファーシート開発仕様"
 subtitle: "5通貨の金利市場・グローバルディスカウンティングからASWへ"
-author: "LagrangeFinance"
+author: "Coral Book"
 date: "2026-10-20"
 lang: ja
 format:
@@ -238,14 +238,14 @@ ASWには債券の信用・流動性等による価格差に加え、参照金�
 
 異なる通貨の条件の比較を目的とし、CTD（Cheapest to Deposit）は、その先にある担保通貨選択の評価課題として区別する。円金利＋50bpとドル金利＋100bpの比較自体と、CSAが認める担保を最適に選ぶ問題は同一ではない。
 
-実装仕様の基準は `besuke/LagrangeFinance` のコミット `e955cf4382af7935ba2c64b8ad27636f03ca5456` である。「実装済み」はこのコミットのソースコードに基づく。「実行確認済み」はMacで報告された検証結果を指す。Windowsでの実行結果は、別途確認する。
+実装仕様の基準は `besuke/coral-book`（旧 `besuke/LagrangeFinance`）のコミット `e955cf4382af7935ba2c64b8ad27636f03ca5456` である。「実装済み」はこのコミットのソースコードに基づく。「実行確認済み」はMacで報告された検証結果を指す。Windowsでの実行結果は、別途確認する。
 
 | 項目 | 基準 |
 |---|---|
 | 現在の作業環境 | macOS・RStudio。Rと依存パッケージの版は実行時に記録 |
 | 既存の実行確認環境 | macOS、RStudio、R 4.5.2 |
-| Windowsのプロジェクト | `C:/AnalyticFin/Projects/LagrangeFinance` |
-| Macのプロジェクト | `~/AnalyticFin/Projects/LagrangeFinance` |
+| Windowsのプロジェクト | `C:/AnalyticFin/Projects/coral-book` |
+| Macのプロジェクト | `~/AnalyticFin/Projects/coral-book` |
 | 金融計算 | QuantLib、GaussQuant |
 | 対象通貨 | JPY・USD・EUR・GBP・AUD |
 | 現行債券評価 | 固定利付債を対象とし、期中の元本償還がなく、満期に額面100で償還するASW |
@@ -601,10 +601,10 @@ ISINは文字形式の確認であり、チェックディジット検証では�
 
 ## Macでの統一サンプル
 
-MacのRStudioでプロジェクトを開き、Rコンソールで次を実行する。Windowsではプロジェクトパスを `C:/AnalyticFin/Projects/LagrangeFinance` に読み替える。
+MacのRStudioでプロジェクトを開き、Rコンソールで次を実行する。Windowsではプロジェクトパスを `C:/AnalyticFin/Projects/coral-book` に読み替える。
 
 ```{r}
-setwd(path.expand("~/AnalyticFin/Projects/LagrangeFinance"))
+setwd(path.expand("~/AnalyticFin/Projects/coral-book"))
 source("R/sample_bond_asset_swap.R")
 ```
 

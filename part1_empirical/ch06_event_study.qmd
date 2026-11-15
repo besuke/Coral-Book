@@ -130,7 +130,7 @@ vec_project_match <- vec_project_candidate[
 ]
 
 if (length(vec_project_match) == 0L) {
-  stop("LagrangeFinanceのプロジェクトルートを確認できません。")
+  stop("Coral Bookのプロジェクトルートを確認できません。")
 }
 
 project_dir <- normalizePath(
