@@ -1,8 +1,8 @@
 # How images/cover.png was made (2026-11-15): from the earlier cover, images/cover.png at commit 5dd2e65 (git show
 # 5dd2e65:images/cover.png > cover_original.png), with
 #   Rscript tools/make_cover.R cover_original.png images/cover.png
-# Coral Book's cover: the old cover's background with its title erased, and the new title (金融工学の応用基礎)
-# with the brand (Coral Book) in coral.
+# Coral Book's cover: the old cover's background with its title erased, and the new title (金融工学の応用基礎).
+# Neutral: the picture in pale grey, the text in charcoal, and a single spot of coral (the dot on the upper rule).
 #   Rscript cover.R <input png> <output png>
 # The old title is erased, not veiled: inside its area a smooth background (a quadratic surface fitted to the
 # light pixels) is estimated, and the pixels darker than it (the old letters and rules) take its colour.
@@ -46,15 +46,16 @@ for (k in 1:3) {
 }
 bg[rows, cols, ] <- region
 
-# pale coral duotone: the picture's lightness, from a soft coral (dark) to an almost white coral (light)
-duo_dark <- c(0xd0, 0x6a, 0x52) / 255
-duo_light <- c(0xff, 0xf7, 0xf3) / 255
+# pale grey duotone: the picture's lightness, from a soft grey (dark) to an almost white (light)
+duo_dark <- c(0xb4, 0xb4, 0xb6) / 255
+duo_light <- c(0xfb, 0xfb, 0xfb) / 255
 t <- lum(bg)^0.8
 for (k in 1:3) bg[, , k] <- duo_dark[k] + (duo_light[k] - duo_dark[k]) * t
 
 systemfonts::register_font("CoverMincho", plain = "C:/Windows/Fonts/yumin.ttf", bold = "C:/Windows/Fonts/yumindb.ttf")
-navy <- "#7d2e1c"   # deep coral brown for the title and the text
-coral <- "#d9573b"
+navy <- "#2b2b2e"   # charcoal for the title and the text
+coral <- "#e0583c"   # the one spot of colour
+grey <- "#8c8c90"    # the label and the rules
 mid <- 462  # the old title's centre line
 px <- function(x) unit(x, "native")
 yy <- function(y_top) unit(h - y_top, "native")
@@ -62,14 +63,14 @@ yy <- function(y_top) unit(h - y_top, "native")
 ragg::agg_png(output, width = w, height = h, units = "px", res = 72, background = "white")
 pushViewport(viewport(xscale = c(0, w), yscale = c(0, h)))
 grid.raster(bg, width = unit(1, "npc"), height = unit(1, "npc"), interpolate = FALSE)
-rule <- function(y, half) {
-  grid.lines(px(c(mid - half, mid - 14)), yy(c(y, y)), gp = gpar(col = coral, lwd = 1.3))
-  grid.lines(px(c(mid + 14, mid + half)), yy(c(y, y)), gp = gpar(col = coral, lwd = 1.3))
-  grid.circle(px(mid), yy(y), r = unit(4.5, "native"), gp = gpar(fill = coral, col = NA))
+rule <- function(y, half, dot = grey, r = 4.5) {
+  grid.lines(px(c(mid - half, mid - 14)), yy(c(y, y)), gp = gpar(col = grey, lwd = 1.3))
+  grid.lines(px(c(mid + 14, mid + half)), yy(c(y, y)), gp = gpar(col = grey, lwd = 1.3))
+  grid.circle(px(mid), yy(y), r = unit(r, "native"), gp = gpar(fill = dot, col = NA))
 }
-grid.text("C O R A L   B O O K", px(mid), yy(345), gp = gpar(fontfamily = "Georgia", fontsize = 26, col = coral))
+grid.text("C O R A L   B O O K", px(mid), yy(345), gp = gpar(fontfamily = "Georgia", fontsize = 26, col = grey))
 grid.text("金融工学の応用基礎", px(mid), yy(438), gp = gpar(fontfamily = "CoverMincho", fontface = "bold", fontsize = 70, col = navy))
-rule(527, 300)
+rule(527, 300, dot = coral, r = 7)
 grid.text("Rによる金融データ分析・数理モデル・並列計算", px(mid), yy(582), gp = gpar(fontfamily = "CoverMincho", fontsize = 26, col = navy))
 rule(638, 185)
 grid.text("Eiichi Horigome", px(mid), yy(690), gp = gpar(fontfamily = "Georgia", fontsize = 26, col = navy))
