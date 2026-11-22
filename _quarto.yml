@@ -40,6 +40,10 @@ book:
 
     # 第III部「エンタープライゼーション」は Carmine Studio に移した（2026-11-15）。
 
+  appendices:
+    - appendix/appendix_a_state_reduction.qmd
+    - appendix/appendix_b_automatic_differentiation.qmd
+
 format:
   html:
     theme: [cosmo, coral.scss]
