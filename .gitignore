@@ -16,7 +16,6 @@ _freeze/
 
 # 完成版のPDFをGit管理する
 !/_pdf_build/
-!/_pdf_build/lagrange-finance.pdf
 !/_pdf_build/coral-book.pdf
 
 !/images/

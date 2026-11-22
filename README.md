@@ -13,4 +13,4 @@
 quarto render          # HTML（_book/）
 ```
 
-PDFの生成と全体のビルドには `build_all_outputs.ps1`（または `build_all_outputs.bat`）を使う。R の共通関数は `R/utility_LFL.R` にあり、プロジェクトのルートは `_quarto.yml` のあるフォルダとして探す。
+HTML と PDF をまとめて作るには `build_html_pdf.bat`（コミットと push はしない。ログは `build_logs/`）を使う。R の共通関数は `R/utility_LFL.R` にあり、プロジェクトのルートは `_quarto.yml` のあるフォルダとして探す。
