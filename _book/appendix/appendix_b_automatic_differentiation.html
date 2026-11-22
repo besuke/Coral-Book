@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix B — 補論B 自動微分（AAD）の数理と、離散・不連続境界での注意点 – 金融工学の応用基礎</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../appendix/appendix_a_state_reduction.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fcb8406d1dc9d709a33a80c4561afb42.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendix/appendix_a_state_reduction.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendix/appendix_b_automatic_differentiation.html"><span class="chapter-title">補論B 自動微分（AAD）の数理と、離散・不連続境界での注意点</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">金融工学の応用基礎</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">はじめに</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">第I部 金融工学　均衡モデル</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch01_r_basics_tidyverse.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-1章 Rによるデータ分析の基礎</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch02_financial_data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-2章 財務データの整理と分析</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch03_stock_data_time_series.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-3章 株式データと時系列分析</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch04_factor_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-4章 ファクターモデル分析</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch05_asset_pricing.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-5章 資産価格モデルとポートフォリオ最適化</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch06_event_study.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-6章 イベント・スタディ</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch07_machine_learning_factor_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-7章 機械学習によるファクター選定</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch08_constrained_portfolio_optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-8章 制約付きポートフォリオ最適化とバックテスト</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch09_market_risk_var.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-9章 市場リスクと市場VaR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch10_credit_risk_credit_var.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-10章 信用リスクと信用VaR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch11_clo_tranche_valuation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-11章 CLOと信用ポートフォリオのトランシェ評価</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">第II部 金融工学　無裁定モデル</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch01_deterministic_cashflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-1章 債券評価と金利リスクの基礎</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch02_interest_rate_curves.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-2章 金利カーブ構築と債券先物の金利感応度</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch03_ois_swaps_multicurve.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-3章 OISスワップとマルチカーブ評価</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch04_black_model.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-4章 株価・為替と幾何ブラウン運動モデル</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch05_credit_risk_cds.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-5章 信用リスクとクレジットデリバティブ</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch06_irs_calibration.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-6章 金利モデルのキャリブレーション</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch07_irs_rate_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-7章 ショートレートモデルとフォワード金利モデル</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch08_early_redemption_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-8章 金利モデルによる早期償還評価</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch09_exotic_derivatives_prdc.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-9章 金利為替系デリバティブ</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix/appendix_a_state_reduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">補論A 持ち越す状態と次元の縮約</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix/appendix_b_automatic_differentiation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">補論B 自動微分（AAD）の数理と、離散・不連続境界での注意点</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#b.1-計算グラフと連鎖律" id="toc-b.1-計算グラフと連鎖律" class="nav-link active" data-scroll-target="#b.1-計算グラフと連鎖律">B.1 計算グラフと連鎖律</a></li>
+  <li><a href="#b.2-フォワードモードとバックワードモード" id="toc-b.2-フォワードモードとバックワードモード" class="nav-link" data-scroll-target="#b.2-フォワードモードとバックワードモード">B.2 フォワードモードとバックワードモード</a>
+  <ul class="collapse">
+  <li><a href="#b.2.1-フォワードモード" id="toc-b.2.1-フォワードモード" class="nav-link" data-scroll-target="#b.2.1-フォワードモード">B.2.1 フォワードモード</a></li>
+  <li><a href="#b.2.2-バックワードモードリバースモード" id="toc-b.2.2-バックワードモードリバースモード" class="nav-link" data-scroll-target="#b.2.2-バックワードモードリバースモード">B.2.2 バックワードモード（リバースモード）</a></li>
+  <li><a href="#b.2.3-計算量の比較" id="toc-b.2.3-計算量の比較" class="nav-link" data-scroll-target="#b.2.3-計算量の比較">B.2.3 計算量の比較</a></li>
+  <li><a href="#b.2.4-2-階微分" id="toc-b.2.4-2-階微分" class="nav-link" data-scroll-target="#b.2.4-2-階微分">B.2.4 2 階微分</a></li>
+  </ul></li>
+  <li><a href="#b.3-有限差分bump-revalueとの比較" id="toc-b.3-有限差分bump-revalueとの比較" class="nav-link" data-scroll-target="#b.3-有限差分bump-revalueとの比較">B.3 有限差分（Bump &amp; Revalue）との比較</a>
+  <ul class="collapse">
+  <li><a href="#b.3.1-誤差の導出" id="toc-b.3.1-誤差の導出" class="nav-link" data-scroll-target="#b.3.1-誤差の導出">B.3.1 誤差の導出</a></li>
+  <li><a href="#b.3.2-計算量" id="toc-b.3.2-計算量" class="nav-link" data-scroll-target="#b.3.2-計算量">B.3.2 計算量</a></li>
+  </ul></li>
+  <li><a href="#b.4-ニューラルネットワークのバックワード計算との同一性" id="toc-b.4-ニューラルネットワークのバックワード計算との同一性" class="nav-link" data-scroll-target="#b.4-ニューラルネットワークのバックワード計算との同一性">B.4 ニューラルネットワークのバックワード計算との同一性</a>
+  <ul class="collapse">
+  <li><a href="#b.4.1-同じ構造" id="toc-b.4.1-同じ構造" class="nav-link" data-scroll-target="#b.4.1-同じ構造">B.4.1 同じ構造</a></li>
+  <li><a href="#b.4.2-近似関数の微分は元の関数より精度が劣化しやすい" id="toc-b.4.2-近似関数の微分は元の関数より精度が劣化しやすい" class="nav-link" data-scroll-target="#b.4.2-近似関数の微分は元の関数より精度が劣化しやすい">B.4.2 近似関数の微分は、元の関数より精度が劣化しやすい</a></li>
+  </ul></li>
+  <li><a href="#b.5-離散の木と不連続な境界での注意点" id="toc-b.5-離散の木と不連続な境界での注意点" class="nav-link" data-scroll-target="#b.5-離散の木と不連続な境界での注意点">B.5 離散の木と不連続な境界での注意点</a>
+  <ul class="collapse">
+  <li><a href="#b.5.1-連続監視のルックバック" id="toc-b.5.1-連続監視のルックバック" class="nav-link" data-scroll-target="#b.5.1-連続監視のルックバック">B.5.1 連続監視のルックバック</a></li>
+  <li><a href="#b.5.2-離散監視のルックバック区分線形性とガンマ" id="toc-b.5.2-離散監視のルックバック区分線形性とガンマ" class="nav-link" data-scroll-target="#b.5.2-離散監視のルックバック区分線形性とガンマ">B.5.2 離散監視のルックバック：区分線形性とガンマ</a></li>
+  <li><a href="#b.5.3-転換コール境界とhull-の式格子固定のベガ" id="toc-b.5.3-転換コール境界とhull-の式格子固定のベガ" class="nav-link" data-scroll-target="#b.5.3-転換コール境界とhull-の式格子固定のベガ">B.5.3 転換・コール境界と、Hull の式、格子固定のベガ</a></li>
+  <li><a href="#b.5.4-tarn-とノックアウト境界を越えるパス" id="toc-b.5.4-tarn-とノックアウト境界を越えるパス" class="nav-link" data-scroll-target="#b.5.4-tarn-とノックアウト境界を越えるパス">B.5.4 TARN とノックアウト：境界を越えるパス</a></li>
+  <li><a href="#b.5.5-まとめどの感応度を-ad-で求めるか" id="toc-b.5.5-まとめどの感応度を-ad-で求めるか" class="nav-link" data-scroll-target="#b.5.5-まとめどの感応度を-ad-で求めるか">B.5.5 まとめ：どの感応度を AD で求めるか</a></li>
+  </ul></li>
+  <li><a href="#b.6-この補論のまとめ" id="toc-b.6-この補論のまとめ" class="nav-link" data-scroll-target="#b.6-この補論のまとめ">B.6 この補論のまとめ</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendix/appendix_a_state_reduction.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendix/appendix_b_automatic_differentiation.html"><span class="chapter-title">補論B 自動微分（AAD）の数理と、離散・不連続境界での注意点</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Appendix B — 補論B 自動微分（AAD）の数理と、離散・不連続境界での注意点</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>この補論は、自動微分（Automatic Differentiation、以下 AD。随伴法を使うものを AAD と呼ぶ）の数理と、離散の木や不連続な支払いの上で微分を扱うときの注意点を整理する。理論と数式の導出だけを書き、実装コードは載せない。数値の実装と、有限差分との比較を操作できる画面は、Carmine-Studio の第13章〜第15章と、その計算エンジンである rmql にある。補論Aで扱った商品（ルックバック、転換社債、MSCB、TARN）の感応度が、どこまで AD で求まり、どこから別の方法になるかを、B.5 にまとめる。</p>
+<section id="b.1-計算グラフと連鎖律" class="level2">
+<h2 class="anchored" data-anchor-id="b.1-計算グラフと連鎖律">B.1 計算グラフと連鎖律</h2>
+<p>価値を、入力 <span class="math inline">\(x \in \mathbb{R}^n\)</span> から出力 <span class="math inline">\(y \in \mathbb{R}\)</span> への関数 <span class="math inline">\(y = f(x)\)</span> とする。計算を、四則演算や指数関数などの<strong>基本演算</strong>の列に分けて <span class="math display">\[
+v_i = \phi_i(v_{j}\ :\ j \in \mathrm{pa}(i)), \qquad i = 1, \dots, L
+\]</span> と書く。ここで <span class="math inline">\(v_1, \dots, v_n\)</span> が入力、<span class="math inline">\(v_L = y\)</span> が出力、<span class="math inline">\(\mathrm{pa}(i)\)</span> は <span class="math inline">\(v_i\)</span> の計算に使う変数の集合である。これが計算グラフ（有向非巡回グラフ）で、一つ一つの演算の偏微分 <span class="math inline">\(\partial\phi_i/\partial v_j\)</span> は、手で書ける簡単な式である。全体の微分は、これらを連鎖律でつないで得る。</p>
+<p><strong>例</strong>：<span class="math inline">\(y = x_1 x_2 + \sin x_1\)</span> は <span class="math display">\[
+v_3 = v_1 v_2, \qquad v_4 = \sin v_1, \qquad v_5 = v_3 + v_4
+\]</span> と分けられる。<span class="math inline">\(\partial y/\partial x_1\)</span> は、<span class="math inline">\(v_1\)</span> から <span class="math inline">\(v_5\)</span> に至る 2 本の道（<span class="math inline">\(v_1 \to v_3 \to v_5\)</span> と <span class="math inline">\(v_1 \to v_4 \to v_5\)</span>）を通る寄与の和 <span class="math display">\[
+\frac{\partial y}{\partial x_1} = \underbrace{v_2 \cdot 1}_{v_1 \to v_3 \to v_5} + \underbrace{\cos v_1 \cdot 1}_{v_1 \to v_4 \to v_5}
+\]</span> である。一般に、連鎖律は、入力から出力へのすべての道について、道の上の偏微分の積を足し合わせる形をしている。</p>
+</section>
+<section id="b.2-フォワードモードとバックワードモード" class="level2">
+<h2 class="anchored" data-anchor-id="b.2-フォワードモードとバックワードモード">B.2 フォワードモードとバックワードモード</h2>
+<p>連鎖律の積は、掛ける順序を、入力側から始めても、出力側から始めてもよい。これが AD の二つのモードである。</p>
+<section id="b.2.1-フォワードモード" class="level3">
+<h3 class="anchored" data-anchor-id="b.2.1-フォワードモード">B.2.1 フォワードモード</h3>
+<p>入力の一つ <span class="math inline">\(x_k\)</span> を選び、各変数の <span class="math inline">\(x_k\)</span> についての微分（<strong>接線</strong>） <span class="math display">\[
+\dot v_i = \frac{\partial v_i}{\partial x_k}
+\]</span> を、計算の順に、<span class="math inline">\(\dot v_i = \sum_{j \in \mathrm{pa}(i)} \dfrac{\partial\phi_i}{\partial v_j}\,\dot v_j\)</span> で伝える。出力の <span class="math inline">\(\dot v_L = \partial y/\partial x_k\)</span> が得られる。1 回のフォワード計算で、<strong>一つの入力</strong>についての微分が得られる。<span class="math inline">\(n\)</span> 個の入力すべてなら <span class="math inline">\(n\)</span> 回の計算が要る。</p>
+</section>
+<section id="b.2.2-バックワードモードリバースモード" class="level3">
+<h3 class="anchored" data-anchor-id="b.2.2-バックワードモードリバースモード">B.2.2 バックワードモード（リバースモード）</h3>
+<p>出力 <span class="math inline">\(y\)</span> から始めて、各変数についての <span class="math inline">\(y\)</span> の微分（<strong>随伴</strong>） <span class="math display">\[
+\bar v_i = \frac{\partial y}{\partial v_i}
+\]</span> を、計算と逆の順に、<span class="math inline">\(\bar v_L = 1\)</span> から、 <span class="math display">\[
+\bar v_j \;\mathrel{+}=\; \bar v_i\,\frac{\partial\phi_i}{\partial v_j} \qquad (i = L, L-1, \dots, n+1,\ \ j \in \mathrm{pa}(i))
+\]</span> で伝える。計算が終わると、<span class="math inline">\(\bar v_1, \dots, \bar v_n\)</span> が、<strong>すべての入力</strong>についての微分 <span class="math inline">\(\partial y/\partial x_1, \dots, \partial y/\partial x_n\)</span> になる。1 回のフォワード計算（値の計算）と 1 回のバックワード計算で、全入力の微分が得られる。</p>
+</section>
+<section id="b.2.3-計算量の比較" class="level3">
+<h3 class="anchored" data-anchor-id="b.2.3-計算量の比較">B.2.3 計算量の比較</h3>
+<p>関数 <span class="math inline">\(f\)</span> を 1 回評価する計算量を <span class="math inline">\(\mathrm{Cost}(f)\)</span> とする。</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>方法</th>
+<th>全入力（<span class="math inline">\(n\)</span> 個）の微分の計算量</th>
+<th>出力が <span class="math inline">\(m\)</span> 個のとき</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>フォワードモード</td>
+<td>およそ <span class="math inline">\(n \times \mathrm{Cost}(f)\)</span></td>
+<td><span class="math inline">\(n\)</span> 回（出力の数によらない）</td>
+</tr>
+<tr class="even">
+<td>バックワードモード</td>
+<td><span class="math inline">\(\mathrm{Cost}(f)\)</span> の定数倍（演算回数で数倍以内。Baur–Strassen の結果）</td>
+<td><span class="math inline">\(m\)</span> 回</td>
+</tr>
+<tr class="odd">
+<td>有限差分（前進差分）</td>
+<td><span class="math inline">\((n + 1) \times \mathrm{Cost}(f)\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>有限差分（中心差分）</td>
+<td><span class="math inline">\(2n \times \mathrm{Cost}(f)\)</span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>金融のリスク計算は、<strong>入力が多く（金利カーブの各ノード、ボラティリティの各点、為替など数十〜数千）、出力が 1 つ（価値）</strong>であることが多い。この形では、バックワードモードの計算量が入力の数 <span class="math inline">\(n\)</span> に依存しない（「<span class="math inline">\(O(1)\)</span>」と呼ぶのは、<span class="math inline">\(n\)</span> について定数という意味で、定数係数と、記憶量の増加は別である）。入力が <span class="math inline">\(n = 100\)</span> なら、有限差分は 100〜200 回の再評価が要るが、バックワードモードは、値の計算と同程度の数倍で済む。逆に、入力が少なく出力が多い場合（たとえば 1 つのパラメーターについて多数の商品の感応度）は、フォワードモードが有利である。</p>
+<p><strong>記憶量</strong>：バックワードモードは、値の計算の中間結果（計算グラフ）を、逆向きの計算が終わるまで保持する。記憶量は、計算グラフの大きさに比例する。木の格子（段数 <span class="math inline">\(N\)</span>、点数 <span class="math inline">\(K\)</span> の格子）の計算を丸ごと記録すると、記録は <span class="math inline">\(N\)</span> や <span class="math inline">\(K\)</span> に応じて大きくなる。Carmine-Studio の転換社債や MSCB の格子で、グリークスをつけた計算が、値だけの計算より桁違いに遅くなる理由の一つである。</p>
+</section>
+<section id="b.2.4-2-階微分" class="level3">
+<h3 class="anchored" data-anchor-id="b.2.4-2-階微分">B.2.4 2 階微分</h3>
+<p>ガンマのような 2 階微分は、1 階の微分を計算する計算（バックワードモードの逆向きの計算）自体をグラフとして記録し、もう一度微分することで得られる。入力が多い場合、2 階微分の全体（ヘッセ行列）は <span class="math inline">\(n^2\)</span> 個の成分を持つので、成分を絞って求めるのが普通である。</p>
+</section>
+</section>
+<section id="b.3-有限差分bump-revalueとの比較" class="level2">
+<h2 class="anchored" data-anchor-id="b.3-有限差分bump-revalueとの比較">B.3 有限差分（Bump &amp; Revalue）との比較</h2>
+<section id="b.3.1-誤差の導出" class="level3">
+<h3 class="anchored" data-anchor-id="b.3.1-誤差の導出">B.3.1 誤差の導出</h3>
+<p>関数 <span class="math inline">\(f\)</span> を 1 変数として、浮動小数点の相対精度を <span class="math inline">\(\varepsilon\)</span>（倍精度で <span class="math inline">\(\approx 10^{-16}\)</span>）とする。前進差分 <span class="math display">\[
+D_h = \frac{f(x + h) - f(x)}{h}
+\]</span> の誤差は、二つの成分の和である。</p>
+<p><strong>打ち切り誤差</strong>：テイラー展開 <span class="math inline">\(f(x+h) = f(x) + h f'(x) + \tfrac12 h^2 f''(\xi)\)</span> より <span class="math display">\[
+D_h - f'(x) = \tfrac12\,h\,f''(\xi) \;=\; O(h).
+\]</span> <span class="math inline">\(h\)</span> を小さくすると減る。</p>
+<p><strong>丸め誤差</strong>：<span class="math inline">\(f(x+h)\)</span> と <span class="math inline">\(f(x)\)</span> の評価には、それぞれ <span class="math inline">\(\varepsilon|f|\)</span> 程度の丸め誤差がある。二つの近い数の引き算で誤差が相殺されず、<span class="math inline">\(h\)</span> で割るので <span class="math display">\[
+\text{丸め誤差} \sim \frac{\varepsilon\,|f|}{h}
+\]</span> となる。<span class="math inline">\(h\)</span> を小さくすると増える。</p>
+<p>両者の和を最小にする <span class="math inline">\(h\)</span> は、<span class="math inline">\(\tfrac12 h |f''| = \varepsilon |f|/h\)</span> より <span class="math inline">\(h^* \sim \sqrt{\varepsilon}\)</span>（<span class="math inline">\(\approx 10^{-8}\)</span>）で、そのときの誤差は <span class="math inline">\(\sqrt{\varepsilon}\)</span> の程度（<span class="math inline">\(\approx 10^{-8}\)</span>）である。<strong>倍精度で 8 桁ほどが限界</strong>である。中心差分 <span class="math display">\[
+\frac{f(x+h) - f(x-h)}{2h}
+\]</span> は、打ち切り誤差が <span class="math inline">\(O(h^2)\)</span> で、最適な <span class="math inline">\(h^* \sim \varepsilon^{1/3}\)</span>（<span class="math inline">\(\approx 10^{-5}\)</span>）、誤差は <span class="math inline">\(\varepsilon^{2/3}\)</span>（<span class="math inline">\(\approx 10^{-11}\)</span>）の程度まで下がるが、再評価が 2 倍になる。</p>
+<p><strong>AD は、この <span class="math inline">\(h\)</span> の選択がない</strong>。AD の微分は、基本演算の微分を機械的に連鎖律でつないだものだから、打ち切り誤差がなく、誤差は丸め誤差だけである（微分する関数の計算そのものと同じ程度）。ただし、「<span class="math inline">\(h\)</span> がない」ことは、微分が常に意味のある値になることを意味しない。B.5 で見るように、離散の木や不連続な支払いでは、AD が正確に求めるのは<strong>計算した関数の微分</strong>で、近似しようとした連続の関数の微分とは異なることがある。</p>
+</section>
+<section id="b.3.2-計算量" class="level3">
+<h3 class="anchored" data-anchor-id="b.3.2-計算量">B.3.2 計算量</h3>
+<p>B.2.3 の表のとおり、入力が <span class="math inline">\(n\)</span> 個のとき、有限差分は <span class="math inline">\(n+1\)</span> 回以上の再評価が要り、バックワードモードの AD は、評価の数倍で済む。さらに、有限差分は、入力ごとに最適な <span class="math inline">\(h\)</span> を選ぶ手間と、再評価ごとの乱数（モンテカルロのとき）の扱いが加わる。乱数を再評価で変えると、差分の分子の標準誤差が <span class="math inline">\(1/h\)</span> 倍に増幅される。再評価ごとに同じ乱数（共通乱数）を使うのが前提になる。</p>
+</section>
+</section>
+<section id="b.4-ニューラルネットワークのバックワード計算との同一性" class="level2">
+<h2 class="anchored" data-anchor-id="b.4-ニューラルネットワークのバックワード計算との同一性">B.4 ニューラルネットワークのバックワード計算との同一性</h2>
+<section id="b.4.1-同じ構造" class="level3">
+<h3 class="anchored" data-anchor-id="b.4.1-同じ構造">B.4.1 同じ構造</h3>
+<p>全結合のネットワークを <span class="math display">\[
+a_0 = x, \qquad z_l = W_l a_{l-1} + b_l, \qquad a_l = \sigma(z_l), \qquad l = 1, \dots, L-1, \qquad \hat y = W_L a_{L-1} + b_L
+\]</span> とする（<span class="math inline">\(\sigma\)</span> は活性化関数、たとえば <span class="math inline">\(\tanh\)</span>）。これは、基本演算（行列積、足し算、<span class="math inline">\(\sigma\)</span>）の列で、B.1 の計算グラフの一つである。誤差逆伝播法（バックプロパゲーション）は、損失 <span class="math inline">\(E\)</span> の各パラメーターについての微分を、B.2.2 のバックワードモードで求める手続きそのものである。連鎖律を使う順序（出力側から入力側へ）も、同じである。</p>
+<p>層ごとの随伴の漸化式は、<span class="math inline">\(\bar a_{L-1} = W_L^{\top}\)</span>（出力が 1 つなら）、 <span class="math display">\[
+\bar z_l = \bar a_l \odot \sigma'(z_l), \qquad
+\bar a_{l-1} = W_l^{\top}\,\bar z_l, \qquad
+\frac{\partial \hat y}{\partial W_l} = \bar z_l\,a_{l-1}^{\top}
+\]</span> で、<span class="math inline">\(\bar a_0 = \partial\hat y/\partial x\)</span> が、<strong>入力についての微分</strong>である。学習時は重み <span class="math inline">\(W_l\)</span> についての微分を使い、評価時は入力 <span class="math inline">\(x\)</span> についての微分を使う。同じバックワード計算で、どちらも得られる。畳み込み層も、畳み込みという演算の随伴（フォワードの畳み込みに対応する、反転したフィルターを使う畳み込み）を使うだけで、構造は同じである。</p>
+</section>
+<section id="b.4.2-近似関数の微分は元の関数より精度が劣化しやすい" class="level3">
+<h3 class="anchored" data-anchor-id="b.4.2-近似関数の微分は元の関数より精度が劣化しやすい">B.4.2 近似関数の微分は、元の関数より精度が劣化しやすい</h3>
+<p>ネットワークを、価格関数 <span class="math inline">\(f\)</span> の近似 <span class="math inline">\(\hat f\)</span> として学習すると、学習は<strong>値の誤差</strong> <span class="math inline">\(e = \hat f - f\)</span> を小さくするように行われる。値の誤差が小さいことは、微分の誤差 <span class="math inline">\(e'\)</span> が小さいことを保証しない。例として <span class="math display">\[
+e(x) = \delta\,\sin\!\bigl(x/\delta\bigr)
+\]</span> を考える。値の誤差は <span class="math inline">\(\sup|e| = \delta\)</span> で、<span class="math inline">\(\delta\)</span> を小さくすればいくらでも小さい。ところが、微分は <span class="math inline">\(e'(x) = \cos(x/\delta)\)</span> で、大きさ 1 のまま減らない。滑らかさが同じ関数でも、わずかな値の振動が、微分では振幅の <span class="math inline">\(1/\delta\)</span> 倍に増幅される。</p>
+<p>したがって、ネットワークのデルタ（入力についての微分）は、同じネットワークの価格より、相対的な誤差が大きくなりやすい。Carmine-Studio の第11章の 11.5 は、Black–Scholes の価格を学習した小さな全結合ネットワークで、この様子を示している（価格の誤差に比べて、デルタの誤差が相対的に大きい）。学習の範囲の外では、価格の誤差そのものが急に増える。</p>
+<p>これは、微分の精度が重要な用途（ヘッジ比率、リスクの集計）で、学習したネットワークを使うときに、価格の精度の検証だけでは足りないことを意味する。微分の精度も、別に検証する必要がある。この観点は、B.5.4 の離散の木の議論と同じ構造をもつ。</p>
+</section>
+</section>
+<section id="b.5-離散の木と不連続な境界での注意点" class="level2">
+<h2 class="anchored" data-anchor-id="b.5-離散の木と不連続な境界での注意点">B.5 離散の木と不連続な境界での注意点</h2>
+<p>AD が正確に求めるのは、<strong>実際に計算した関数の微分</strong>である。離散の木や、境界で切り替わる支払いでは、その関数が、近似しようとした連続の関数と、微分のレベルで違うことがある。本節は、補論Aの商品ごとに、どの感応度が AD で求まり、どれが別の方法になるかを整理する。</p>
+<section id="b.5.1-連続監視のルックバック" class="level3">
+<h3 class="anchored" data-anchor-id="b.5.1-連続監視のルックバック">B.5.1 連続監視のルックバック</h3>
+<p>閉じた式（A.2.6）は、現物・金利・ボラティリティ・満期のすべてについて滑らかである。式を基本演算に分ければ、1 階・2 階の微分のすべて（デルタ、ガンマ、ベガ、ロー、シータなど）を AD で求められる。<span class="math inline">\(b \to 0\)</span> の近くでは、式の書き方を級数展開に替える（A.2.6）。AD は、替えた式を微分するので、極限で連続な微分が得られる。</p>
+</section>
+<section id="b.5.2-離散監視のルックバック区分線形性とガンマ" class="level3">
+<h3 class="anchored" data-anchor-id="b.5.2-離散監視のルックバック区分線形性とガンマ">B.5.2 離散監視のルックバック：区分線形性とガンマ</h3>
+<p>A.2.7 で見たように、離散監視のルックバックの木の価値は、初期の現物 <span class="math inline">\(S_0\)</span> について区分線形である。したがって、</p>
+<ul>
+<li><strong>デルタ、ベガ、ローなど 1 階の微分</strong>：木の計算を AD で微分すれば得られる（区分線形な関数の傾き）。</li>
+<li><strong>ガンマ</strong>：AD で 2 階微分すると、区分線形な関数の 2 階微分で、折れ目を除いて 0 になる。連続監視のガンマ（正の値）の近似にならない。</li>
+</ul>
+<p>そのため、ガンマだけは、時刻 0 の格子の点の値を使った 2 階差分で求める（格子の間隔に基づいた、有限差分）。Carmine-Studio の rmql の実装は、この区分で、ガンマだけを 2 階差分にしている（連続監視の値との差は、仕様書の検査で 30% 以内）。</p>
+</section>
+<section id="b.5.3-転換コール境界とhull-の式格子固定のベガ" class="level3">
+<h3 class="anchored" data-anchor-id="b.5.3-転換コール境界とhull-の式格子固定のベガ">B.5.3 転換・コール境界と、Hull の式、格子固定のベガ</h3>
+<p>転換社債・MSCB の木では、各節点で <span class="math display">\[
+V \leftarrow \max\bigl(V,\ \kappa S\bigr)\ \ (\text{転換}), \qquad
+V \leftarrow \min\bigl(V,\ \text{コール価格}\bigr)\ \ (\text{コール})
+\]</span> のような<strong>最大・最小の演算</strong>が入る。木の価値は、入力（現物 <span class="math inline">\(S\)</span>、ボラティリティ <span class="math inline">\(\sigma\)</span> など）の関数として、これらの演算がどの節点で切り替わるかに応じた<strong>区分的に滑らかな関数</strong>で、切り替わる点で折れる。段数 <span class="math inline">\(N\)</span> の木の価値 <span class="math inline">\(V_N(\sigma)\)</span> は、連続の価値 <span class="math inline">\(V(\sigma)\)</span> に収束するが、 <span class="math display">\[
+V_N(\sigma) = V(\sigma) + e_N(\sigma)
+\]</span> と書くと、誤差 <span class="math inline">\(e_N\)</span> は小さくても、<span class="math inline">\(\sigma\)</span> に対して<strong>振動する</strong>（切り替わる節点の位置が、<span class="math inline">\(\sigma\)</span> に応じて飛び飛びに動くため）。B.4.2 の議論と同じ構造で、<span class="math inline">\(|e_N|\)</span> が小さくても、<span class="math inline">\(|e_N'|\)</span> は小さくなるとは限らない。</p>
+<p>そこから、次のことが言える。</p>
+<ol type="1">
+<li><strong>デルタとガンマ</strong>：現物をごくわずかにずらした差分は、折れ目をまたぐかどうかでばらつく。木の最初の 1〜2 段の値から作る <strong>Hull の式</strong>（A.3.4）は、格子の間隔のスケールで平均した傾きを与えるので、ばらつきが小さい。このため、転換社債・MSCB のデルタとガンマは、AD ではなく Hull の式で求める。</li>
+<li><strong>ベガ・ロー・信用スプレッドの感応度</strong>：AD で求める。AD は、その点の木の局所の傾きを正確に求める。<span class="math inline">\(V_N'(\sigma) = V'(\sigma) + e_N'(\sigma)\)</span> だから、<strong>段数を変えると、<span class="math inline">\(e_N'\)</span> の分だけ値が動く</strong>。価格が収束していても、AD のベガは、段数ごとに大きく動くことがある。Carmine-Studio の第13章の 13.5 の例では、縮約の 200 段と 400 段のベガが 53 と 91 で、3200 段で 75 になる。ボラティリティの動かし幅を広く（0.01〜0.02）取った中心差分は、折れ目を平均して、約 82〜85 に落ち着く。</li>
+<li><strong>格子固定のベガ</strong>：2 次元の格子（A.4.4）の AD は、転換価額の格子の範囲を<strong>固定して</strong>微分する。ボラティリティが変わると、格子の範囲（株価の分布の ±6 標準偏差）も動くが、その分は微分に含まれない。そのため、格子の AD のベガは、格子を作り直したうえでの有限差分（ボラティリティの小さな変化）とは一致しない。一方、1 次元の縮約には、この固定がない（<span class="math inline">\(z\)</span> の格子が <span class="math inline">\(\sigma\)</span> に応じて作り直されるのが、計算そのもの）ので、縮約の AD は、微小幅の中心差分と一致する。</li>
+</ol>
+<p>読者は、第13章の表の、縮約のベガと格子のベガの違いを、方法の食い違いと読んではいけない。離散の木の性質である。</p>
+</section>
+<section id="b.5.4-tarn-とノックアウト境界を越えるパス" class="level3">
+<h3 class="anchored" data-anchor-id="b.5.4-tarn-とノックアウト境界を越えるパス">B.5.4 TARN とノックアウト：境界を越えるパス</h3>
+<p>モンテカルロで、経路ごとの支払い <span class="math inline">\(Y(\theta; \omega)\)</span>（<span class="math inline">\(\theta\)</span> はパラメーター、<span class="math inline">\(\omega\)</span> は乱数）の期待値を <span class="math inline">\(\theta\)</span> で微分するとき、AD は<strong>経路ごとの微分</strong>（パスワイズ微分） <span class="math display">\[
+\frac{\partial}{\partial\theta}\mathbb{E}[Y] \;\overset{?}{=}\; \mathbb{E}\!\left[\frac{\partial Y}{\partial\theta}\right]
+\]</span> を計算する。この等式が成り立つには、<span class="math inline">\(Y\)</span> が <span class="math inline">\(\theta\)</span> について（ほとんどすべての <span class="math inline">\(\omega\)</span> で）連続で、微分と期待値の交換ができなければならない。</p>
+<ul>
+<li><strong>フロアやキャップで切ったクーポン</strong>（折れ線）：<span class="math inline">\(\theta\)</span> について連続で、折れ目だけが微分できない。折れ目は確率 0 の集合だから、パスワイズ微分は正しい（デルタなど、PRDC のクーポンの感応度で成り立つ）。</li>
+<li><strong>ノックアウトの判定や、TARN の目標到達による償還</strong>：経路が境界（水準、目標）を越えるかどうかで、支払いが<strong>不連続に跳ぶ</strong>。<span class="math inline">\(Y\)</span> は境界の上で不連続で、境界を越える経路の割合が <span class="math inline">\(\theta\)</span> に応じて変わる。これは、<span class="math inline">\(\mathbb{E}[Y]\)</span> の <span class="math inline">\(\theta\)</span> についての微分に、跳びの大きさに比例する寄与を与える。ところが、経路ごとの微分は、不連続の点では定義されず、連続な部分では 0 に寄与しない（指示関数の微分は、ほとんどすべての経路で 0）。パスワイズ AD は、<strong>この寄与を取り落とす</strong>。</li>
+</ul>
+<p>その結果、パスワイズ AD が返す感応度は、真の感応度と偏り（バイアス）をもつ。対処は、(a) 指示関数を、境界の近くで滑らかな関数に置き換える（スムージング。置き換えの幅がバイアスと分散の兼ね合いになる）、(b) 尤度比法（乱数の密度の微分を使う）、(c) 共通乱数を使った有限差分、のいずれかである。</p>
+<p><strong>本書での位置づけ</strong>：Carmine-Studio の第14章の画面は、TARN の価値と償還時期の分布を示すもので、感応度は示さない。第15章の自動微分の例は、PRDC のクーポン（為替のフロアとキャップによる折れ線）の感応度で、跳びがない場合である。TARN やノックアウトの感応度は、本補論では<strong>理論上の注意</strong>として示すにとどまり、数値による検証は行っていない。</p>
+</section>
+<section id="b.5.5-まとめどの感応度を-ad-で求めるか" class="level3">
+<h3 class="anchored" data-anchor-id="b.5.5-まとめどの感応度を-ad-で求めるか">B.5.5 まとめ：どの感応度を AD で求めるか</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>商品</th>
+<th>AD で求めるもの</th>
+<th>別の方法で求めるもの</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>連続監視のルックバック（閉じた式）</td>
+<td>すべて（ガンマも）</td>
+<td>なし</td>
+<td>式が滑らか</td>
+</tr>
+<tr class="even">
+<td>離散監視のルックバック（木）</td>
+<td>ガンマ以外のすべて</td>
+<td>ガンマ：格子の点の値の 2 階差分</td>
+<td>木の価値は区分線形で、2 階微分が 0</td>
+</tr>
+<tr class="odd">
+<td>転換社債・MSCB（木）</td>
+<td>ベガ、ロー、配当ロー、信用スプレッドの感応度</td>
+<td>デルタ、ガンマ：木の最初の 1〜2 段の値（Hull の式）</td>
+<td>転換・コール境界で折れ、細かい差分がばらつく</td>
+</tr>
+<tr class="even">
+<td>TARN・ノックアウト（モンテカルロ）</td>
+<td>跳びがない部分（フロア、キャップ）の感応度</td>
+<td>境界の跳びの寄与：スムージング、尤度比法、共通乱数の差分</td>
+<td>指示関数のパスワイズ微分は 0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>教訓</strong>：AD は「差分の幅を選ぶ必要がない」ので、誤差が小さい、とだけ受け取ってはいけない。AD が正確に求めるのは、<strong>計算した関数の微分</strong>である。計算した関数（離散の木、不連続な支払い、近似したネットワーク）が、近似しようとした関数と、微分のレベルで同じかどうかは、別に確かめなければならない。</p>
+</section>
+</section>
+<section id="b.6-この補論のまとめ" class="level2">
+<h2 class="anchored" data-anchor-id="b.6-この補論のまとめ">B.6 この補論のまとめ</h2>
+<ul>
+<li>AD は、計算を基本演算に分け、連鎖律でつないで微分を求める。フォワードモードは、入力 1 つについての微分を 1 回で、バックワードモードは、出力 1 つについての全入力の微分を 1 回で、与える。</li>
+<li>金融のリスクは、入力が多く出力が 1 つなので、バックワードモードの計算量が入力の数によらず、有限差分の <span class="math inline">\(n+1\)</span> 回以上の再評価に対して有利である。</li>
+<li>有限差分は、打ち切り誤差と丸め誤差の兼ね合いで、倍精度では 8 桁（前進）〜 11 桁（中心）が限度である。AD にはこの選択がない。</li>
+<li>ニューラルネットワークの誤差逆伝播は、バックワードモードそのものである。ただし、近似関数の微分は、値より誤差が相対的に大きくなりやすい。</li>
+<li>離散の木や不連続な支払いでは、AD が求めるのは、計算した関数の微分である。木の区分線形性（ルックバックのガンマ）、転換・コール境界の折れ（Hull の式、段数で動くベガ、格子固定のベガ）、境界を越えるパスの跳び（TARN・ノックアウト）には、注意が要る。</li>
+</ul>
+<p>数値の実装と、有限差分との比較、PRDC の高次元リスク感応度の例は、Carmine-Studio の第15章と rmql を参照されたい。</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../appendix/appendix_a_state_reduction.html" class="pagination-link" aria-label="補論A 持ち越す状態と次元の縮約">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">補論A 持ち越す状態と次元の縮約</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

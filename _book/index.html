@@ -44,7 +44,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9e3e5b9121e68b3f077afb32f2c64d95.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-fcb8406d1dc9d709a33a80c4561afb42.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -100,7 +100,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">エンタープライズ金融モデル構築</a> 
+      <a href="./">金融工学の応用基礎</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -240,7 +240,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">第III部　エンタープライゼーション</span></a>
+ <span class="menu-text">Appendices</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -248,37 +248,12 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./part3_enterprise_riemann/ch01_computational_evolution_parallel.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第III-1章 金融計算技術の発展</span></a>
+  <a href="./appendix/appendix_a_state_reduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">補論A 持ち越す状態と次元の縮約</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./part3_enterprise_riemann/ch02_distributed_computing_jobtask.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第III-2章 分散コンピューティング</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./part3_enterprise_riemann/ch03_enterprise_financial_computing.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第III-3章 金融計算アーキテクチャ</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./part3_enterprise_riemann/ch04_automatic_differentiation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第III-4章 自動微分計算</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./part3_enterprise_riemann/ch05_option_greeks_autodiff.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第III-5章 自動微分応用：オプション</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./part3_enterprise_riemann/ch06_interest_rate_risk_autodiff.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第III-6章 自動微分応用：金利リスク</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./part3_enterprise_riemann/ch07_prdc_autodiff.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第III-7章 自動微分応用：多因子モデル</span></a>
+  <a href="./appendix/appendix_b_automatic_differentiation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">補論B 自動微分（AAD）の数理と、離散・不連続境界での注意点</span></a>
   </div>
 </li>
       </ul>
@@ -293,7 +268,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#金融モデル構築からエンタープライズへ" id="toc-金融モデル構築からエンタープライズへ" class="nav-link active" data-scroll-target="#金融モデル構築からエンタープライズへ">金融モデル構築からエンタープライズへ</a></li>
+  <li><a href="#関連するプロジェクト" id="toc-関連するプロジェクト" class="nav-link active" data-scroll-target="#関連するプロジェクト">関連するプロジェクト</a></li>
   </ul>
 </nav>
     </div>
@@ -303,7 +278,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">はじめに</h1>
-<p class="subtitle lead">Rによるデータモデリング・金融工学・並列分散コンピュータ自動微分</p>
+<p class="subtitle lead">Coral Book ─ Rによる金融データ分析・価格評価・リスク計測</p>
 </div>
 
 
@@ -326,25 +301,25 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><img src="images/cover.png" title="エンタープライズ金融モデル構築" class="quarto-cover-image nolightbox img-fluid"></p>
+<p><img src="images/cover.png" title="金融工学の応用基礎" class="quarto-cover-image nolightbox img-fluid"></p>
 <div style="text-align: right; font-style: italic; margin-top: 2em; margin-bottom: 2em;">
 <p>“All models are wrong, but some are useful.”<br>
 「すべてのモデルは正しくない。しかし、その中には有用なものもある。」<br>
 — George E. P. Box</p>
 </div>
-<section id="金融モデル構築からエンタープライズへ" class="level1">
-<h1>金融モデル構築からエンタープライズへ</h1>
-<p>2008年のリーマン・ショックを契機として、バーゼル規制をはじめとする金融規制の枠組みは再整備され、金融機関には、より精緻な価格評価やリスク計測が求められるようになった。その過程で、金融工学の理論や数値計算手法は実務の中に広く定着し、現在では一定の成熟段階に達している。</p>
-<p>一方、それらを支えるソフトウェア技術と計算環境は、この20年で劇的に進歩した。クラウドコンピューティング、オープンソースソフトウェア、並列処理および分散処理技術の発展により、かつて金融機関や研究機関のみが利用できたスーパーコンピューターやグリッドコンピューティング環境は、クラウドサービスやPCクラスタを利用することで、個人や小規模組織でも比較的低コストに構築できるようになった。また、モンテカルロシミュレーションやリスク計測など、大量の計算資源を必要とする金融工学計算も、現実的な時間で実行できる時代となっている。</p>
-<p>こうした時代の変化を背景として、</p>
-<blockquote class="blockquote">
-<p><strong>金融工学を学ぶ時代から、自ら金融工学システムを構築する時代へ。</strong></p>
-</blockquote>
-<p>という新しい潮流が生まれている。</p>
-<p>なお、本書は三部構成となっている。</p>
-<p>第I部では、均衡モデルを中心とした実証ファイナンスを扱い、財務データや市場データを用いた分析手法を学ぶ。第II部では、無裁定価格理論を中心として、債券、金利期間構造、デリバティブ、信用リスクなどの金融工学モデルを実装する。さらに第III部では、第II部で実装した無裁定価格モデルを基盤として、並列処理および分散処理環境へ展開し、大規模な金融工学計算を実装する方法を扱う。</p>
-<p>また、その実装基盤としてRおよびtidyverseを採用する。Rは統計解析言語として広く利用されているが、本書では、優れたデータハンドリング機能、ベクトル演算、関数型プログラミングの特徴を備えた実装基盤として位置付けている。これらの特徴を活かすことで、金融データの取得・加工から価格評価、リスク計測、さらには並列・分散コンピューティング環境を利用した大規模金融工学計算までを、一貫した設計思想のもとで実装することができる。</p>
-<p>本書の目的は、金融理論を理解することだけではなく、それらをソフトウェアとして実装し、現代の金融工学システムを構築するための基礎技術を体系的に習得することにある。</p>
+<p>本書の目的は、金融工学の手法を実際の財務・市場データに適用し、価格評価やリスク計測を手元のRで再現できるようにすることである。モデルの仮定を明示し、データや入力条件を変えたときに結果がどう動くかを調べることで、そのモデルがどのような場面で役立つかを確かめる。論文で示されたモデルや、個人のExcelで確かめた計算を実務で使うには、データの取得と整形、モデルの実行、結果の検証までを、他の人も同じ手順で繰り返せる形にする必要がある。</p>
+<p>いまは、Rをはじめとする無償のオープンソース・ソフトウェアを使い、手元のPC一台から金融工学の計算環境を構築できる。専用サーバーや商用のグリッド・ミドルウェアへの初期投資を抑え、計算量に応じて複数コアや複数台のPCへ処理を広げられる。</p>
+<p>第I部では、財務・市場データを使った実証分析から、ポートフォリオ最適化、市場・信用リスクの計測、トランシェ評価へ進む。第II部では、無裁定価格理論を基礎に、債券、金利カーブ、OIS、デリバティブの評価を扱う。</p>
+<p>実装の基盤にはRとtidyverseを用いる。Rは統計解析言語として広く利用されているが、本書では、データハンドリング機能、ベクトル演算、関数型プログラミングの特徴を備えた実装基盤として位置付ける。これらの特徴を活かすことで、金融データの取得・加工から価格評価、リスク計測までを、一貫した設計のもとで実装できる。各章はQuartoで構成し、数式、Rコード、実行結果を対応づけて読めるようにした。</p>
+<p>金融モデルをサーバー上で実行し、複数の利用者がブラウザから使える形にしたい読者には、Carmine Studio『エンタープライズ金融モデル』を勧める。</p>
+<section id="関連するプロジェクト" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="関連するプロジェクト">関連するプロジェクト</h2>
+<p>本書と同じ金融モデルを、別の入口から学ぶプロジェクトがある。</p>
+<ul>
+<li><strong><a href="https://github.com/besuke/carmine-studio">Carmine Studio『エンタープライズ金融モデル』</a></strong>：Reactで条件を操作し、Rサーバー上のRiemannFinMathでモデルを評価するWebアプリ。計算エンジンと操作画面を分けた構成、並列計算、分散計算、自動微分を扱う。</li>
+<li><strong><a href="https://github.com/besuke/crimson-proof">Crimson Proof『Leanから見た金融数学』</a></strong>：金融モデルの仮定をLeanで定義し、どの仮定のもとで何が成り立つかを証明する本。</li>
+</ul>
+<p>たとえば無裁定と割引なら、本書の第II部第1章と第3章で割引と複製を計算し、Carmine StudioでOISの気配を変えてスワップの時価を確かめ、Crimson Proofで無裁定に必要な市場の仮定を定義して定理を証明する。</p>
 
 
 </section>

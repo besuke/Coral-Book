@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix A — 補論A 持ち越す状態と次元の縮約 – 金融工学の応用基礎</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../appendix/appendix_b_automatic_differentiation.html" rel="next">
+<link href="../part2_quantive_riemann/ch09_exotic_derivatives_prdc.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fcb8406d1dc9d709a33a80c4561afb42.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendix/appendix_a_state_reduction.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendix/appendix_a_state_reduction.html"><span class="chapter-title">補論A 持ち越す状態と次元の縮約</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">金融工学の応用基礎</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">はじめに</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">第I部 金融工学　均衡モデル</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch01_r_basics_tidyverse.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-1章 Rによるデータ分析の基礎</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch02_financial_data.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-2章 財務データの整理と分析</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch03_stock_data_time_series.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-3章 株式データと時系列分析</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch04_factor_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-4章 ファクターモデル分析</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch05_asset_pricing.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-5章 資産価格モデルとポートフォリオ最適化</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch06_event_study.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-6章 イベント・スタディ</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch07_machine_learning_factor_selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-7章 機械学習によるファクター選定</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch08_constrained_portfolio_optimization.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-8章 制約付きポートフォリオ最適化とバックテスト</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch09_market_risk_var.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-9章 市場リスクと市場VaR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch10_credit_risk_credit_var.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-10章 信用リスクと信用VaR</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part1_empirical/ch11_clo_tranche_valuation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第I-11章 CLOと信用ポートフォリオのトランシェ評価</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">第II部 金融工学　無裁定モデル</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch01_deterministic_cashflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-1章 債券評価と金利リスクの基礎</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch02_interest_rate_curves.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-2章 金利カーブ構築と債券先物の金利感応度</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch03_ois_swaps_multicurve.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-3章 OISスワップとマルチカーブ評価</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch04_black_model.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-4章 株価・為替と幾何ブラウン運動モデル</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch05_credit_risk_cds.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-5章 信用リスクとクレジットデリバティブ</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch06_irs_calibration.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-6章 金利モデルのキャリブレーション</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch07_irs_rate_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-7章 ショートレートモデルとフォワード金利モデル</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch08_early_redemption_models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-8章 金利モデルによる早期償還評価</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../part2_quantive_riemann/ch09_exotic_derivatives_prdc.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">第II-9章 金利為替系デリバティブ</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix/appendix_a_state_reduction.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">補論A 持ち越す状態と次元の縮約</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix/appendix_b_automatic_differentiation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">補論B 自動微分（AAD）の数理と、離散・不連続境界での注意点</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#a.1-マルコフ状態の問いと一次同次性" id="toc-a.1-マルコフ状態の問いと一次同次性" class="nav-link active" data-scroll-target="#a.1-マルコフ状態の問いと一次同次性">A.1 マルコフ状態の問いと一次同次性</a>
+  <ul class="collapse">
+  <li><a href="#a.1.1-状態とは何か" id="toc-a.1.1-状態とは何か" class="nav-link" data-scroll-target="#a.1.1-状態とは何か">A.1.1 状態とは何か</a></li>
+  <li><a href="#a.1.2-ヨーロピアンコールの一次同次性" id="toc-a.1.2-ヨーロピアンコールの一次同次性" class="nav-link" data-scroll-target="#a.1.2-ヨーロピアンコールの一次同次性">A.1.2 ヨーロピアン・コールの一次同次性</a></li>
+  <li><a href="#a.1.3-縮約の一般形" id="toc-a.1.3-縮約の一般形" class="nav-link" data-scroll-target="#a.1.3-縮約の一般形">A.1.3 縮約の一般形</a></li>
+  </ul></li>
+  <li><a href="#a.2-ルックバックオプション" id="toc-a.2-ルックバックオプション" class="nav-link" data-scroll-target="#a.2-ルックバックオプション">A.2 ルックバック・オプション</a>
+  <ul class="collapse">
+  <li><a href="#a.2.1-商品" id="toc-a.2.1-商品" class="nav-link" data-scroll-target="#a.2.1-商品">A.2.1 商品</a></li>
+  <li><a href="#a.2.2-同次性による縮約" id="toc-a.2.2-同次性による縮約" class="nav-link" data-scroll-target="#a.2.2-同次性による縮約">A.2.2 同次性による縮約</a></li>
+  <li><a href="#a.2.3-監視日の更新式の導出" id="toc-a.2.3-監視日の更新式の導出" class="nav-link" data-scroll-target="#a.2.3-監視日の更新式の導出">A.2.3 監視日の更新式の導出</a></li>
+  <li><a href="#a.2.4-木による数値化" id="toc-a.2.4-木による数値化" class="nav-link" data-scroll-target="#a.2.4-木による数値化">A.2.4 木による数値化</a></li>
+  <li><a href="#a.2.5-固定ストライクの還元" id="toc-a.2.5-固定ストライクの還元" class="nav-link" data-scroll-target="#a.2.5-固定ストライクの還元">A.2.5 固定ストライクの還元</a></li>
+  <li><a href="#a.2.6-連続監視と-b-to-0-の極限" id="toc-a.2.6-連続監視と-b-to-0-の極限" class="nav-link" data-scroll-target="#a.2.6-連続監視と-b-to-0-の極限">A.2.6 連続監視と <span class="math inline">\(b \to 0\)</span> の極限</a></li>
+  <li><a href="#a.2.7-離散監視の価値は区分線形である" id="toc-a.2.7-離散監視の価値は区分線形である" class="nav-link" data-scroll-target="#a.2.7-離散監視の価値は区分線形である">A.2.7 離散監視の価値は区分線形である</a></li>
+  </ul></li>
+  <li><a href="#a.3-転換社債" id="toc-a.3-転換社債" class="nav-link" data-scroll-target="#a.3-転換社債">A.3 転換社債</a>
+  <ul class="collapse">
+  <li><a href="#a.3.1-商品と信用リスクの扱い" id="toc-a.3.1-商品と信用リスクの扱い" class="nav-link" data-scroll-target="#a.3.1-商品と信用リスクの扱い">A.3.1 商品と信用リスクの扱い</a></li>
+  <li><a href="#a.3.2-tsiveriotisfernandes-の枠組み" id="toc-a.3.2-tsiveriotisfernandes-の枠組み" class="nav-link" data-scroll-target="#a.3.2-tsiveriotisfernandes-の枠組み">A.3.2 Tsiveriotis–Fernandes の枠組み</a></li>
+  <li><a href="#a.3.3-極限での確認" id="toc-a.3.3-極限での確認" class="nav-link" data-scroll-target="#a.3.3-極限での確認">A.3.3 極限での確認</a></li>
+  <li><a href="#a.3.4-デルタとガンマの求め方" id="toc-a.3.4-デルタとガンマの求め方" class="nav-link" data-scroll-target="#a.3.4-デルタとガンマの求め方">A.3.4 デルタとガンマの求め方</a></li>
+  </ul></li>
+  <li><a href="#a.4-mscb転換価額修正条項つき転換社債" id="toc-a.4-mscb転換価額修正条項つき転換社債" class="nav-link" data-scroll-target="#a.4-mscb転換価額修正条項つき転換社債">A.4 MSCB（転換価額修正条項つき転換社債）</a>
+  <ul class="collapse">
+  <li><a href="#a.4.1-転換時にリセットする型" id="toc-a.4.1-転換時にリセットする型" class="nav-link" data-scroll-target="#a.4.1-転換時にリセットする型">A.4.1 転換時にリセットする型</a></li>
+  <li><a href="#a.4.2-転換価値の-3-本のコールへの分解" id="toc-a.4.2-転換価値の-3-本のコールへの分解" class="nav-link" data-scroll-target="#a.4.2-転換価値の-3-本のコールへの分解">A.4.2 転換価値の 3 本のコールへの分解</a></li>
+  <li><a href="#a.4.3-alpha-1-のときの即時転換" id="toc-a.4.3-alpha-1-のときの即時転換" class="nav-link" data-scroll-target="#a.4.3-alpha-1-のときの即時転換">A.4.3 <span class="math inline">\(\alpha &lt; 1\)</span> のときの即時転換</a></li>
+  <li><a href="#a.4.4-転換価額を持ち越す型s-k-の-2-次元" id="toc-a.4.4-転換価額を持ち越す型s-k-の-2-次元" class="nav-link" data-scroll-target="#a.4.4-転換価額を持ち越す型s-k-の-2-次元">A.4.4 転換価額を持ち越す型：<span class="math inline">\((S, K)\)</span> の 2 次元</a></li>
+  <li><a href="#a.4.5-限度がないときの-z-sk-への縮約" id="toc-a.4.5-限度がないときの-z-sk-への縮約" class="nav-link" data-scroll-target="#a.4.5-限度がないときの-z-sk-への縮約">A.4.5 限度がないときの <span class="math inline">\(z = S/K\)</span> への縮約</a></li>
+  </ul></li>
+  <li><a href="#a.5-縮約できない状態とモンテカルロ法への橋渡し" id="toc-a.5-縮約できない状態とモンテカルロ法への橋渡し" class="nav-link" data-scroll-target="#a.5-縮約できない状態とモンテカルロ法への橋渡し">A.5 縮約できない状態と、モンテカルロ法への橋渡し</a>
+  <ul class="collapse">
+  <li><a href="#a.5.1-mbs-の元本残高" id="toc-a.5.1-mbs-の元本残高" class="nav-link" data-scroll-target="#a.5.1-mbs-の元本残高">A.5.1 MBS の元本残高</a></li>
+  <li><a href="#a.5.2-tarn-の累積クーポンと生存状態" id="toc-a.5.2-tarn-の累積クーポンと生存状態" class="nav-link" data-scroll-target="#a.5.2-tarn-の累積クーポンと生存状態">A.5.2 TARN の累積クーポンと生存状態</a></li>
+  <li><a href="#a.5.3-モンテカルロ法への橋渡し" id="toc-a.5.3-モンテカルロ法への橋渡し" class="nav-link" data-scroll-target="#a.5.3-モンテカルロ法への橋渡し">A.5.3 モンテカルロ法への橋渡し</a></li>
+  </ul></li>
+  <li><a href="#a.6-この補論のまとめ" id="toc-a.6-この補論のまとめ" class="nav-link" data-scroll-target="#a.6-この補論のまとめ">A.6 この補論のまとめ</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../appendix/appendix_a_state_reduction.html">Appendices</a></li><li class="breadcrumb-item"><a href="../appendix/appendix_a_state_reduction.html"><span class="chapter-title">補論A 持ち越す状態と次元の縮約</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Appendix A — 補論A 持ち越す状態と次元の縮約</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>この補論は、ルックバック・オプション、転換社債、転換価額修正条項つき転換社債（MSCB）、そして縮約できない経路依存の商品（MBS、TARN）を、一つの問いでそろえて整理する。理論と数式の導出だけを書き、実装コードは載せない。数値の実装と、条件を動かして確かめる画面は、Carmine-Studio の第13章〜第15章と、その計算エンジンである rmql にある。</p>
+<p>貫く問いは、次の一つである。</p>
+<blockquote class="blockquote">
+<p><strong>明日からの価値を計算するために、今日までの何を覚えておけばよいか。</strong></p>
+</blockquote>
+<p>覚えておくものが増えると、価値関数の変数の数、すなわち状態の次元が増える。次元が増えると、格子の点の数が指数的に増える。そこで、状態を価格との比に直して次元を減らせないか、減らせないならどう評価するか、が問題になる。</p>
+<p>本補論の数値は、読者が追えるように、Carmine-Studio の計算（rmql 0.5.0）で確かめた結果に言及するが、導出そのものは数値例に依存しない。数値例が合うことは、その例で成り立つことを示すだけで、命題の証明ではない。</p>
+<section id="a.1-マルコフ状態の問いと一次同次性" class="level2">
+<h2 class="anchored" data-anchor-id="a.1-マルコフ状態の問いと一次同次性">A.1 マルコフ状態の問いと一次同次性</h2>
+<section id="a.1.1-状態とは何か" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.1-状態とは何か">A.1.1 状態とは何か</h3>
+<p>時刻 <span class="math inline">\(t\)</span> の価値が、<span class="math inline">\(t\)</span> 以降の評価に必要なすべての情報を含む変数 <span class="math inline">\(X_t\)</span> の関数 <span class="math inline">\(V(t, X_t)\)</span> で書けるとき、<span class="math inline">\(X_t\)</span> を状態と呼ぶ。株価 <span class="math inline">\(S_t\)</span> が幾何ブラウン運動に従い、支払いが満期の株価だけで決まるなら、状態は <span class="math inline">\(S_t\)</span> の一つだけである。支払いが過去の株価に依存するなら、その依存を運ぶ変数を状態に加えなければならない。</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>商品</th>
+<th>覚えておくもの</th>
+<th>状態</th>
+<th>縮約</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ヨーロピアン・オプション</td>
+<td>なし</td>
+<td><span class="math inline">\(S\)</span>（行使価格 <span class="math inline">\(K\)</span> は定数）</td>
+<td>比 <span class="math inline">\(S/K\)</span> の 1 変数</td>
+</tr>
+<tr class="even">
+<td>ルックバック（変動ストライク）</td>
+<td>監視日までの最小値 <span class="math inline">\(m\)</span></td>
+<td><span class="math inline">\((S, m)\)</span></td>
+<td>比 <span class="math inline">\(z = S/m\)</span> の 1 変数</td>
+</tr>
+<tr class="odd">
+<td>転換社債（転換価額固定）</td>
+<td>なし</td>
+<td><span class="math inline">\(S\)</span></td>
+<td>1 変数</td>
+</tr>
+<tr class="even">
+<td>MSCB（転換時にリセット）</td>
+<td>なし（転換する時点の株価で決まる）</td>
+<td><span class="math inline">\(S\)</span></td>
+<td>1 変数</td>
+</tr>
+<tr class="odd">
+<td>MSCB（転換価額を持ち越す）</td>
+<td>現在の転換価額 <span class="math inline">\(K\)</span></td>
+<td><span class="math inline">\((S, K)\)</span></td>
+<td>限度がなければ比 <span class="math inline">\(z = S/K\)</span> の 1 変数</td>
+</tr>
+<tr class="even">
+<td>MBS</td>
+<td>元本残高と、これまでの金利の動き</td>
+<td>残高と金利の履歴</td>
+<td>比に直せない</td>
+</tr>
+<tr class="odd">
+<td>TARN</td>
+<td>累積クーポンと、まだ償還されていないか</td>
+<td>累積クーポンと生存の印</td>
+<td>比に直せない</td>
+</tr>
+</tbody>
+</table>
+<p>縮約の可否を決めるのは、<strong>状態を現物 <span class="math inline">\(S\)</span> で割った比が、そのまま次の状態として引き継がれるか</strong>である。以下の節で、この判定を一つずつ確かめる。</p>
+</section>
+<section id="a.1.2-ヨーロピアンコールの一次同次性" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.2-ヨーロピアンコールの一次同次性">A.1.2 ヨーロピアン・コールの一次同次性</h3>
+<p>リスク中立測度の下で、株価を <span class="math display">\[
+S_T = S\,e^{X}, \qquad X = \Bigl(r - q - \tfrac12\sigma^2\Bigr)T + \sigma W_T
+\]</span> と書く。ここで <span class="math inline">\(r\)</span> は金利、<span class="math inline">\(q\)</span> は配当利回り、<span class="math inline">\(\sigma\)</span> はボラティリティ、<span class="math inline">\(W_T\)</span> は標準ブラウン運動である。<span class="math inline">\(X\)</span> は <span class="math inline">\(S\)</span> にも <span class="math inline">\(K\)</span> にも依存しない。行使価格 <span class="math inline">\(K\)</span> のコールの価値は <span class="math display">\[
+C(S, K) = e^{-rT}\,\mathbb{E}\bigl[(S e^{X} - K)^+\bigr]
+        = K \cdot e^{-rT}\,\mathbb{E}\bigl[(z\,e^{X} - 1)^+\bigr]
+        = K \cdot v(z), \qquad z = \frac{S}{K}
+\]</span> となる。ここで <span class="math inline">\(v(z) = e^{-rT}\,\mathbb{E}[(z e^{X} - 1)^+]\)</span> である。すなわち <span class="math inline">\(C(\lambda S, \lambda K) = \lambda C(S, K)\)</span> が任意の <span class="math inline">\(\lambda &gt; 0\)</span> について成り立つ（現物と行使価格について<strong>一次同次</strong>）。同次性は、乱数 <span class="math inline">\(X\)</span> の分布が水準 <span class="math inline">\(S\)</span> に依存しないこと（株価の変動が比例的であること）と、支払いが <span class="math inline">\((S_T, K)\)</span> について一次同次であること、の二つから来る。この二つのどちらかが崩れると、次元は減らない。</p>
+<p>この性質は、価値だけでなく感応度にも及ぶ。たとえばデルタは <span class="math display">\[
+\frac{\partial C}{\partial S} = v'(z)
+\]</span> となり、水準によらず比 <span class="math inline">\(z\)</span> だけで決まる。</p>
+</section>
+<section id="a.1.3-縮約の一般形" class="level3">
+<h3 class="anchored" data-anchor-id="a.1.3-縮約の一般形">A.1.3 縮約の一般形</h3>
+<p>支払いが状態の組 <span class="math inline">\((S, Y)\)</span>（<span class="math inline">\(Y\)</span> は「覚えておくもの」で、<span class="math inline">\(S\)</span> と同じ単位をもつ）について一次同次、状態の動きが比例的なら、 <span class="math display">\[
+V(S, Y) = Y\,w\!\left(\frac{S}{Y}\right)
+\]</span> と書ける。<span class="math inline">\(Y\)</span> が定数のとき（ヨーロピアン）は上のとおりで、<span class="math inline">\(Y\)</span> が経路の途中で更新されるとき（ルックバック、MSCB のリセット）は、更新の規則が比 <span class="math inline">\(z\)</span> だけの写像になっているかを確かめる必要がある。次の A.2 と A.4 でそれを行う。</p>
+</section>
+</section>
+<section id="a.2-ルックバックオプション" class="level2">
+<h2 class="anchored" data-anchor-id="a.2-ルックバックオプション">A.2 ルックバック・オプション</h2>
+<section id="a.2.1-商品" class="level3">
+<h3 class="anchored" data-anchor-id="a.2.1-商品">A.2.1 商品</h3>
+<p>満期 <span class="math inline">\(T\)</span> までの監視日 <span class="math inline">\(t_1 &lt; \dots &lt; t_n\)</span> に観測した株価の最小値を <span class="math inline">\(m\)</span>、最大値を <span class="math inline">\(M\)</span> とする。変動ストライクと固定ストライクの支払いは、次のとおりである。</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>種類</th>
+<th>コール</th>
+<th>プット</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>変動ストライク</td>
+<td><span class="math inline">\(S_T - m\)</span></td>
+<td><span class="math inline">\(M - S_T\)</span></td>
+</tr>
+<tr class="even">
+<td>固定ストライク</td>
+<td><span class="math inline">\(\max(M - K,\,0)\)</span></td>
+<td><span class="math inline">\(\max(K - m,\,0)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>ここで <span class="math inline">\(m\)</span> と <span class="math inline">\(M\)</span> は、すでに観測した値（満期までに更新される前の、現在の最小値・最大値）と、将来の監視日の株価を合わせたものを指す。以下では、最小値を使う変動ストライクのコールを代表に取る。最大値を使うプットは対称である。</p>
+</section>
+<section id="a.2.2-同次性による縮約" class="level3">
+<h3 class="anchored" data-anchor-id="a.2.2-同次性による縮約">A.2.2 同次性による縮約</h3>
+<p>時刻 <span class="math inline">\(t\)</span> に、これまでの最小値が <span class="math inline">\(m\)</span>、現物が <span class="math inline">\(S \ge m\)</span> だとする。将来の支払い <span class="math inline">\(S_T - \min(m, \text{将来の監視値})\)</span> は、<span class="math inline">\((S, m)\)</span> について一次同次で、株価の動きは比例的である。したがって、A.1.3 より <span class="math display">\[
+V(t, S, m) = m\,w(t, z), \qquad z = \frac{S}{m} \ge 1
+\]</span> と書ける。状態は <span class="math inline">\((S, m)\)</span> の 2 変数から、比 <span class="math inline">\(z \ge 1\)</span> の 1 変数に減る。</p>
+</section>
+<section id="a.2.3-監視日の更新式の導出" class="level3">
+<h3 class="anchored" data-anchor-id="a.2.3-監視日の更新式の導出">A.2.3 監視日の更新式の導出</h3>
+<p>監視日 <span class="math inline">\(t_k\)</span> の直前と直後で、価値は、最小値の更新を挟んで接続する。直前の最小値を <span class="math inline">\(m\)</span>、その日の株価を <span class="math inline">\(S\)</span> とすると、直後の最小値は <span class="math inline">\(\min(m, S)\)</span> である。したがって、価値の接続条件は <span class="math display">\[
+V_{\text{前}}(S, m) = V_{\text{後}}\bigl(S, \min(m, S)\bigr)
+\]</span> である。比 <span class="math inline">\(z = S/m\)</span> で書き直す。</p>
+<p><strong><span class="math inline">\(z \ge 1\)</span> のとき</strong>（株価が最小値を下回らない）：最小値は更新されず、<span class="math inline">\(\min(m, S) = m\)</span> である。 <span class="math display">\[
+m\,w_{\text{前}}(z) = m\,w_{\text{後}}(z) \quad\Longrightarrow\quad w_{\text{前}}(z) = w_{\text{後}}(z).
+\]</span></p>
+<p><strong><span class="math inline">\(z &lt; 1\)</span> のとき</strong>（株価が最小値を下回る）：新しい最小値は <span class="math inline">\(S\)</span> 自身で、直後の比は <span class="math inline">\(S/S = 1\)</span> である。 <span class="math display">\[
+m\,w_{\text{前}}(z) = S\,w_{\text{後}}(1) \quad\Longrightarrow\quad w_{\text{前}}(z) = z\,w_{\text{後}}(1).
+\]</span></p>
+<p>まとめると、監視日の更新式は <span class="math display">\[
+w_{\text{前}}(z) =
+\begin{cases}
+z\,w_{\text{後}}(1) &amp; (z &lt; 1) \\[2pt]
+w_{\text{後}}(z) &amp; (z \ge 1)
+\end{cases}
+\]</span> である。<span class="math inline">\(z &lt; 1\)</span> の側に <span class="math inline">\(z\)</span> を掛ける項があることが要点で、これを落とすと（たとえば <span class="math inline">\(z &lt; 1\)</span> を単に <span class="math inline">\(z = 1\)</span> に置き換えるだけにすると）、価値は大きく狂う。この項は、最小値が更新される分の価値の比例的な変化を表す。</p>
+<p>最終日 <span class="math inline">\(T\)</span> の支払いは、変動ストライクのコールなら <span class="math inline">\(S_T - \min(m, S_T)\)</span> を <span class="math inline">\(m\)</span> で割った <span class="math inline">\(\max(z - 1, 0)\)</span> の形で、<span class="math inline">\(w(T, z) = \max(z - 1, 0)\)</span> である（最終日が監視日であるとき、上の更新式を先に適用する）。</p>
+</section>
+<section id="a.2.4-木による数値化" class="level3">
+<h3 class="anchored" data-anchor-id="a.2.4-木による数値化">A.2.4 木による数値化</h3>
+<p>比 <span class="math inline">\(z\)</span> を対数の格子 <span class="math inline">\(z = u^{j}\)</span>（<span class="math inline">\(u = e^{\sigma\sqrt{\Delta t}}\)</span>、<span class="math inline">\(j\)</span> は整数）に取る。<span class="math inline">\(j = 0\)</span> が <span class="math inline">\(z = 1\)</span> である。株価は、標準的な二項木（Cox–Ross–Rubinstein）と同じ確率で上下するので、<span class="math inline">\(z\)</span> も格子の上を 1 段ずつ動く。監視日の間は通常のバックワード（時間をさかのぼる）計算、監視日には A.2.3 の更新式を格子の各点に適用する。<span class="math inline">\(z &lt; 1\)</span> の点は、監視日の間にだけ現れる（最小値を更新する監視日が来るまで、最小値は古いままだから）。初期の比 <span class="math inline">\(z_0 = S_0/m_0\)</span> が格子の点でないときは、隣り合う 2 点の値を線形に補間する。</p>
+<p>監視を毎段で行う木は、連続監視（A.2.6）に収束するが、収束は遅く、誤差は段数 <span class="math inline">\(N\)</span> の <span class="math inline">\(1/\sqrt{N}\)</span> で減る。理由は、監視が段の上の離散点に限られ、段の間の最小値を取りこぼすことにある。Carmine-Studio 第13章の 13.2 は、この収束を rmql の計算で示している。</p>
+</section>
+<section id="a.2.5-固定ストライクの還元" class="level3">
+<h3 class="anchored" data-anchor-id="a.2.5-固定ストライクの還元">A.2.5 固定ストライクの還元</h3>
+<p>固定ストライクのコールの支払いは <span class="math inline">\((M_T - K)^+\)</span> である。ここで <span class="math inline">\(M_T\)</span> は満期までの最大値（観測済みの最大値を含む）である。<span class="math inline">\(K\)</span> を最大値の初期値の候補に加えて <span class="math display">\[
+\widetilde M_T = \max(M_T,\,K), \qquad (M_T - K)^+ = \widetilde M_T - K
+\]</span> と書く。<span class="math inline">\(\widetilde M_T\)</span> は、最大値の初期値を <span class="math inline">\(\max(M_0, K)\)</span> に置き換えた最大値である。変動ストライクのプットの支払いは <span class="math inline">\(\widetilde M_T - S_T\)</span> だから <span class="math display">\[
+(M_T - K)^+ = \underbrace{\bigl(\widetilde M_T - S_T\bigr)}_{\text{変動ストライクのプット（最大値の初期値 }\max(M_0, K)\text{）}} + S_T - K
+\]</span> となる。両辺の割引現在価値を取ると、<span class="math inline">\(\mathbb{E}[e^{-rT} S_T] = S\,e^{-qT}\)</span> だから <span class="math display">\[
+\text{固定コール} = \text{変動プット}\bigl(\max(M_0, K)\bigr) + S\,e^{-qT} - K\,e^{-rT}
+\]</span> が得られる。同じ議論で、固定ストライクのプットは、最小値の初期値を <span class="math inline">\(\min(m_0, K)\)</span> に置き換えた変動ストライクのコールを使って <span class="math display">\[
+\text{固定プット} = \text{変動コール}\bigl(\min(m_0, K)\bigr) + K\,e^{-rT} - S\,e^{-qT}
+\]</span> と書ける。この還元は、連続監視にも離散監視にも成り立つ（支払いの恒等式だから、監視の方法に依存しない）。したがって、固定ストライクの価格の式を別に用意する必要はなく、変動ストライクの計算だけで足りる。</p>
+</section>
+<section id="a.2.6-連続監視と-b-to-0-の極限" class="level3">
+<h3 class="anchored" data-anchor-id="a.2.6-連続監視と-b-to-0-の極限">A.2.6 連続監視と <span class="math inline">\(b \to 0\)</span> の極限</h3>
+<p>最小値を連続に監視すると、変動ストライクのコールに閉じた式がある。ドリフト <span class="math inline">\(b = r - q\)</span> を使って、現物 <span class="math inline">\(S\)</span>、現在の最小値 <span class="math inline">\(m\)</span> のとき <span class="math display">\[
+c = S e^{-qT}N(a_1) - m e^{-rT}N(a_2)
+  + S e^{-rT}\,\frac{\sigma^2}{2b}\left[\Bigl(\frac{S}{m}\Bigr)^{-2b/\sigma^2} N\!\Bigl(-a_1 + \frac{2b\sqrt T}{\sigma}\Bigr) - e^{bT} N(-a_1)\right]
+\]</span> である。ここで <span class="math display">\[
+a_1 = \frac{\ln(S/m) + (b + \sigma^2/2)T}{\sigma\sqrt T}, \qquad a_2 = a_1 - \sigma\sqrt T
+\]</span> であり、<span class="math inline">\(N\)</span> は標準正規分布の分布関数である。この式は文献（Goldman, Sosin and Gatto, 1979; Conze and Viswanathan, 1991）の標準の式で、本書では導出を与えない（反射原理を使った最小値の分布から得られる）。この補論の著者は、この式を例の入力で rmql の連続監視の関数と比べ、20.58301（<span class="math inline">\(S = 100\)</span>、<span class="math inline">\(m = 90\)</span>、<span class="math inline">\(r = 3\%\)</span>、<span class="math inline">\(q = 1\%\)</span>、<span class="math inline">\(\sigma = 25\%\)</span>、<span class="math inline">\(T = 1\)</span>）で一致することを確かめた。</p>
+<p><strong><span class="math inline">\(b \to 0\)</span> の極限の考え方</strong>：第 3 項は <span class="math inline">\(1/b\)</span> に比例する。<span class="math inline">\(b \to 0\)</span> のとき、角括弧の中は <span class="math display">\[
+\Bigl(\tfrac{S}{m}\Bigr)^{-2b/\sigma^2}N\!\Bigl(-a_1 + \tfrac{2b\sqrt T}{\sigma}\Bigr) - e^{bT}N(-a_1) \;\longrightarrow\; N(-a_1) - N(-a_1) = 0
+\]</span> となるので、第 3 項は <span class="math inline">\(0/0\)</span> の形である。角括弧の中を <span class="math inline">\(G(b)\)</span> と書くと、<span class="math inline">\(G\)</span> は <span class="math inline">\(b\)</span> について解析的で <span class="math inline">\(G(0) = 0\)</span> だから、 <span class="math display">\[
+\lim_{b \to 0}\frac{G(b)}{b} = G'(0)
+\]</span> で極限が存在する。実装では、<span class="math inline">\(|b|\)</span> が小さいとき、<span class="math inline">\(G(b)/b\)</span> を <span class="math inline">\(b\)</span> のべき級数（3 次まで）に置き換える。式のまま計算すると、丸め誤差が <span class="math inline">\(\varepsilon/|b|\)</span>（<span class="math inline">\(\varepsilon\)</span> は機械イプシロン）の大きさで効き、一方、べき級数の打ち切り誤差は <span class="math inline">\(b^{3}\)</span> の程度だから、両者が釣り合う <span class="math inline">\(|b|\)</span> を境に使い分けるのが妥当である。<strong>価値は <span class="math inline">\(b = 0\)</span> で連続</strong>であって、<span class="math inline">\(b = 0\)</span> ちょうどだけ式が定義されないのは、式の書き方の問題であり、価値の性質ではない。</p>
+</section>
+<section id="a.2.7-離散監視の価値は区分線形である" class="level3">
+<h3 class="anchored" data-anchor-id="a.2.7-離散監視の価値は区分線形である">A.2.7 離散監視の価値は区分線形である</h3>
+<p>A.2.4 の木で、時刻 0 の価値は、初期の比 <span class="math inline">\(z_0\)</span> を挟む 2 点の値の線形補間だから、<strong><span class="math inline">\(S_0\)</span> の関数として区分線形</strong>である。区分線形な関数は、折れ目を除いて 2 階微分が 0 である。したがって、木の価値を自動微分して得る 2 階微分（ガンマ）は 0 になり、連続監視のガンマの近似にはならない。ガンマは、格子の点の値の 2 階差分で求める必要がある（補論Bの B.5 で再び扱う）。</p>
+</section>
+</section>
+<section id="a.3-転換社債" class="level2">
+<h2 class="anchored" data-anchor-id="a.3-転換社債">A.3 転換社債</h2>
+<section id="a.3.1-商品と信用リスクの扱い" class="level3">
+<h3 class="anchored" data-anchor-id="a.3.1-商品と信用リスクの扱い">A.3.1 商品と信用リスクの扱い</h3>
+<p>転換社債（CB）は、債券に、株式への転換権がついたものである。保有者は、転換すれば転換価値 <span class="math inline">\(\kappa S\)</span>（<span class="math inline">\(\kappa\)</span> は転換比率）を、しなければクーポンと償還額を受け取る。発行体の信用リスクは、<strong>転換されない部分だけ</strong>にかかる。転換すれば株式を受け取るので、その価値は発行体の信用スプレッドで割り引かれないからである。</p>
+</section>
+<section id="a.3.2-tsiveriotisfernandes-の枠組み" class="level3">
+<h3 class="anchored" data-anchor-id="a.3.2-tsiveriotisfernandes-の枠組み">A.3.2 Tsiveriotis–Fernandes の枠組み</h3>
+<p>信用スプレッドを <span class="math inline">\(s\)</span> とし、価値 <span class="math inline">\(V\)</span> と、転換に至る確率 <span class="math inline">\(p\)</span> を、節点ごとに持つ。転換される部分の割引率は <span class="math inline">\(r\)</span>、されない部分は <span class="math inline">\(r + s\)</span> だから、節点の割引率は <span class="math display">\[
+\rho = p\,r + (1 - p)(r + s) = r + (1 - p)\,s
+\]</span> である。<span class="math inline">\(p = 1\)</span>（必ず転換される）なら信用スプレッドは効かず、<span class="math inline">\(p = 0\)</span>（転換されない）なら普通の債券と同じ <span class="math inline">\(r + s\)</span> で割り引く。</p>
+<p>二項木での 1 段のバックワード計算は、価値 <span class="math inline">\(V\)</span> と確率 <span class="math inline">\(p\)</span> を同じ重みで戻す。上昇の確率を <span class="math inline">\(p_u\)</span>、下降を <span class="math inline">\(p_d\)</span> として <span class="math display">\[
+V_j \leftarrow \frac{p_d\,V_j}{1 + \rho_j\,\Delta t} + \frac{p_u\,V_{j+1}}{1 + \rho_{j+1}\,\Delta t},
+\]</span> <span class="math inline">\(p\)</span> も同じ重みで戻す（割引率 <span class="math inline">\(\rho\)</span> は、上の式のとおり、1 段先の節点の <span class="math inline">\(p\)</span> から作る）。この単純割引の形は、QuantLib の二項木の転換社債のエンジンに合わせたものである。</p>
+<p>各節点の時刻では、コール（発行体の償還権）、プット（保有者の償還請求権）、クーポン、転換の調整を順に行う。転換の調整は <span class="math display">\[
+V \le \kappa S \;\Longrightarrow\; V \leftarrow \kappa S,\; p \leftarrow 1
+\]</span> である。つまり、転換価値が継続価値以上なら、転換して <span class="math inline">\(p = 1\)</span> とする。</p>
+</section>
+<section id="a.3.3-極限での確認" class="level3">
+<h3 class="anchored" data-anchor-id="a.3.3-極限での確認">A.3.3 極限での確認</h3>
+<p>信用スプレッドが 0、クーポンなし、ヨーロピアン型の転換で、コールもなければ、価値は <span class="math display">\[
+V = F\,e^{-rT} + \kappa\,\mathrm{call}\bigl(S,\,F/\kappa\bigr)
+\]</span> （額面 <span class="math inline">\(F\)</span> の割引債に、行使価格 <span class="math inline">\(F/\kappa\)</span> のコールを <span class="math inline">\(\kappa\)</span> 株分足したもの）である。理由は、満期の支払いが <span class="math inline">\(\max(F, \kappa S_T) = F + \kappa\,(S_T - F/\kappa)^+\)</span> だからである。この式は、木の実装の検証の基準になる。</p>
+</section>
+<section id="a.3.4-デルタとガンマの求め方" class="level3">
+<h3 class="anchored" data-anchor-id="a.3.4-デルタとガンマの求め方">A.3.4 デルタとガンマの求め方</h3>
+<p>転換とコールの判定は節点ごとに切り替わるので、価値は現物について、節点の境界で折れる。そのため、デルタとガンマは、現物をごくわずかにずらした差分ではばらつく。木の最初の 1〜2 段の値から求める Hull の式が使われる。 <span class="math display">\[
+\Delta \approx \frac{V_{1,u} - V_{1,d}}{S_{1,u} - S_{1,d}}, \qquad
+\Gamma \approx \frac{\Delta_{\text{上}} - \Delta_{\text{下}}}{\tfrac12\,(S_{2,uu} - S_{2,dd})}
+\]</span> ここで <span class="math inline">\(V_{1,u}, V_{1,d}\)</span> は 1 段目の上と下の節点の価値、<span class="math inline">\(S_{1,u}, S_{1,d}\)</span> はその現物、<span class="math inline">\(\Delta_{\text{上}}\)</span> と <span class="math inline">\(\Delta_{\text{下}}\)</span> は 2 段目の上側と下側の隣り合う節点から作ったデルタである。格子の間隔より細かい差分は使わない（B.5 を参照）。</p>
+</section>
+</section>
+<section id="a.4-mscb転換価額修正条項つき転換社債" class="level2">
+<h2 class="anchored" data-anchor-id="a.4-mscb転換価額修正条項つき転換社債">A.4 MSCB（転換価額修正条項つき転換社債）</h2>
+<section id="a.4.1-転換時にリセットする型" class="level3">
+<h3 class="anchored" data-anchor-id="a.4.1-転換時にリセットする型">A.4.1 転換時にリセットする型</h3>
+<p>転換価額が、転換する時点の株価 <span class="math inline">\(S\)</span> から <span class="math display">\[
+K(S) = \min\bigl(K_{\max},\ \max(K_{\min},\ \alpha S)\bigr)
+\]</span> と決まる型である。<span class="math inline">\(\alpha\)</span> は 1 以下の値（たとえば 0.9）、<span class="math inline">\(K_{\min}, K_{\max}\)</span> は下限と上限である。額面 <span class="math inline">\(F\)</span> を転換して受け取る株式は <span class="math inline">\(F/K(S)\)</span> 株だから、その価値は <span class="math display">\[
+\frac{F\,S}{K(S)} = F\,g(S), \qquad
+g(S) = \max\!\Bigl(\frac{S}{K_{\max}},\ \min\!\Bigl(\frac{S}{K_{\min}},\ \frac{1}{\alpha}\Bigr)\Bigr)
+\]</span> となる。ここで <span class="math inline">\(K_{\min} \le K_{\max}\)</span>、<span class="math inline">\(\alpha \le 1\)</span> とする。転換価値は<strong>同時点の株価だけ</strong>の関数で、持ち越す状態がないから、状態は <span class="math inline">\(S\)</span> の 1 変数で、固定転換価額の CB（A.3）と同じ木が使える（転換価値の関数だけを差し替える）。</p>
+</section>
+<section id="a.4.2-転換価値の-3-本のコールへの分解" class="level3">
+<h3 class="anchored" data-anchor-id="a.4.2-転換価値の-3-本のコールへの分解">A.4.2 転換価値の 3 本のコールへの分解</h3>
+<p><span class="math inline">\(g\)</span> を、行使価格の違う 3 本のコールの和で書く。<span class="math inline">\(g - 1\)</span> の正の部分を考える（満期の支払いは <span class="math inline">\(\max(F, F g) = F + F\,(g - 1)^+\)</span>）。 <span class="math display">\[
+(g(S) - 1)^+ = \frac{(S - K_{\min})^+}{K_{\min}} - \frac{(S - K_{\min}/\alpha)^+}{K_{\min}} + \frac{(S - K_{\max}/\alpha)^+}{K_{\max}}.
+\]</span> これは、<span class="math inline">\(S\)</span> の 4 つの区間で確かめられる。</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>区間</th>
+<th><span class="math inline">\((g - 1)^+\)</span></th>
+<th>右辺の 3 項の和</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(S \le K_{\min}\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(0 - 0 + 0 = 0\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(K_{\min} &lt; S \le K_{\min}/\alpha\)</span></td>
+<td><span class="math inline">\(S/K_{\min} - 1\)</span></td>
+<td><span class="math inline">\((S/K_{\min} - 1) - 0 + 0\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(K_{\min}/\alpha &lt; S \le K_{\max}/\alpha\)</span></td>
+<td><span class="math inline">\(1/\alpha - 1\)</span></td>
+<td><span class="math inline">\((S/K_{\min} - 1) - (S/K_{\min} - 1/\alpha) + 0 = 1/\alpha - 1\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(S &gt; K_{\max}/\alpha\)</span></td>
+<td><span class="math inline">\(S/K_{\max} - 1\)</span></td>
+<td><span class="math inline">\((1/\alpha - 1) + (S/K_{\max} - 1/\alpha) = S/K_{\max} - 1\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>（表の最後の 2 行では <span class="math inline">\(\alpha \le 1\)</span> と <span class="math inline">\(K_{\min} \le K_{\max}\)</span> を使う。<span class="math inline">\(S \le K_{\min}\)</span> のとき <span class="math inline">\(S/K_{\max} - 1/\alpha &lt; 0\)</span> だから、第 3 項は 0 である。）</p>
+<p>したがって、ヨーロピアン型で、ゼロクーポン、信用スプレッドなし、コールなしの価値は、行使価格 <span class="math inline">\(K\)</span> のヨーロピアン・コールの価格 <span class="math inline">\(\mathrm{call}(K)\)</span> を使って <span class="math display">\[
+V = F\,e^{-rT} + F\left[\frac{\mathrm{call}(K_{\min})}{K_{\min}} - \frac{\mathrm{call}(K_{\min}/\alpha)}{K_{\min}} + \frac{\mathrm{call}(K_{\max}/\alpha)}{K_{\max}}\right]
+\]</span> と閉じる（上限がなければ最後の項は 0）。この式は、木の実装の検証の基準になる。</p>
+</section>
+<section id="a.4.3-alpha-1-のときの即時転換" class="level3">
+<h3 class="anchored" data-anchor-id="a.4.3-alpha-1-のときの即時転換">A.4.3 <span class="math inline">\(\alpha &lt; 1\)</span> のときの即時転換</h3>
+<p>上限がなく、クーポンがなく、割引率が非負（<span class="math inline">\(r \ge 0\)</span>、<span class="math inline">\(s \ge 0\)</span>）の場合を考える。<span class="math inline">\(\alpha &lt; 1\)</span> で、<span class="math inline">\(S \ge K_{\min}/\alpha\)</span> のとき、転換価値は <span class="math inline">\(F/\alpha\)</span> に頭打ちである。転換価値は任意の株価で <span class="math inline">\(F/\alpha\)</span> 以下だから、将来のどの時点で転換しても、受け取る額は <span class="math inline">\(F/\alpha\)</span> を超えず、割引すればそれ以下になる。一方、すぐ転換すれば <span class="math inline">\(F/\alpha\)</span> がそのまま得られる。したがって、アメリカン型の保有者にとって、<span class="math inline">\(S \ge K_{\min}/\alpha\)</span> では<strong>即時転換が最適</strong>で、価値は <span class="math inline">\(F/\alpha\)</span> に等しく、現物への依存がなくなる（デルタもガンマも 0）。</p>
+<p>この性質は、同時点の株価を参照する条項そのものの帰結であって、実装の誤りではない。実際の契約は、転換できる日の制限や、参照する株価の定め方で、この性質を抑えていることがある。それは本補論の対象外である。</p>
+</section>
+<section id="a.4.4-転換価額を持ち越す型s-k-の-2-次元" class="level3">
+<h3 class="anchored" data-anchor-id="a.4.4-転換価額を持ち越す型s-k-の-2-次元">A.4.4 転換価額を持ち越す型：<span class="math inline">\((S, K)\)</span> の 2 次元</h3>
+<p>実際の MSCB は、決まったリセット日 <span class="math inline">\(\tau_1 &lt; \dots &lt; \tau_n\)</span> に、その日の株価で転換価額を見直し、新しい転換価額を、次のリセット日まで持ち越す。リセットは、その日の転換の前に行う（その日の転換は新しい転換価額を使う）。持ち越す転換価額 <span class="math inline">\(K\)</span> が状態に加わるので、状態は <span class="math inline">\((S, K)\)</span> の 2 次元である。</p>
+<p>リセットの規則には、二つの型がある。</p>
+<p><span class="math display">\[
+K^{+} =
+\begin{cases}
+\min\bigl(K_{\max},\ \max(K_{\min},\ \alpha S)\bigr) &amp; \text{（上下どちらにも見直す。直前の } K^{-} \text{ によらない）} \\[4pt]
+\min\bigl(K^{-},\ \max(K_{\min},\ \alpha S)\bigr) &amp; \text{（下げる方向にだけ見直す）}
+\end{cases}
+\]</span></p>
+<p>ここで <span class="math inline">\(K^{-}\)</span> はリセット直前の転換価額、<span class="math inline">\(K^{+}\)</span> は直後の値である。</p>
+<p><strong>2 次元の格子</strong>：転換価額の格子の点ごとに、転換比率 <span class="math inline">\(F/K\)</span> の木（A.3）を持つ。リセットの間は、点どうしが独立にさかのぼる。リセット日には、各現物の節点で、新しい転換価額 <span class="math inline">\(K^{+}(S, K^{-})\)</span> の位置の値を、<span class="math inline">\(K\)</span> 軸で補間して引き継ぐ。補間するのは、価値、転換確率、割引率の 3 本である（TF の木の状態）。</p>
+<p><strong>補間を <span class="math inline">\(1/K\)</span> について線形にする理由</strong>：転換価値 <span class="math inline">\(F\,S/K\)</span> は、<span class="math inline">\(1/K\)</span> について線形である。したがって、価値のうち転換価値の部分は、<span class="math inline">\(1/K\)</span> について線形に補間すれば誤差が出ない。<span class="math inline">\(K\)</span> について線形に補間すると、転換価値の部分に、補間だけの誤差が生じる。</p>
+</section>
+<section id="a.4.5-限度がないときの-z-sk-への縮約" class="level3">
+<h3 class="anchored" data-anchor-id="a.4.5-限度がないときの-z-sk-への縮約">A.4.5 限度がないときの <span class="math inline">\(z = S/K\)</span> への縮約</h3>
+<p><span class="math inline">\(K_{\min} = 0\)</span>（と、上下に見直す型では <span class="math inline">\(K_{\max} = \infty\)</span>）、つまり転換価額に限度がないとき、この問題は次のように 1 次元に縮約できる。</p>
+<p><strong>同次性</strong>：償還額 <span class="math inline">\(F\)</span> とクーポンは、<span class="math inline">\(S\)</span> にも <span class="math inline">\(K\)</span> にも依存しない。転換価値 <span class="math inline">\(F\,S/K\)</span> は <span class="math inline">\((S, K)\)</span> について 0 次同次である（<span class="math inline">\(S\)</span> と <span class="math inline">\(K\)</span> を同じ倍率で変えても変わらない）。リセットの規則も、<span class="math inline">\(K^{+} \propto S\)</span> または <span class="math inline">\(K^{+} = \min(K^{-}, \alpha S)\)</span> で、<span class="math inline">\((S, K)\)</span> を同じ倍率で変えると <span class="math inline">\(K^{+}\)</span> も同じ倍率で変わる。株価の動きは比例的だから、価値は <span class="math display">\[
+V(t, S, K) = v(t, z), \qquad z = \frac{S}{K}
+\]</span> と書ける（0 次同次の関数は、比だけの関数である）。</p>
+<p><strong>リセットの写像</strong>：限度がなければ、リセットによる <span class="math inline">\(z\)</span> の変化は、次の写像で書ける。<span class="math inline">\(z^{-} = S/K^{-}\)</span>、<span class="math inline">\(z^{+} = S/K^{+}\)</span> として、</p>
+<ul>
+<li>下げる方向にだけ見直す型：<span class="math inline">\(K^{+} = \min(K^{-}, \alpha S)\)</span> より、<span class="math inline">\(z^{+} = \max(z^{-},\,1/\alpha)\)</span>。</li>
+<li>上下に見直す型：<span class="math inline">\(K^{+} = \alpha S\)</span> より、<span class="math inline">\(z^{+} = 1/\alpha\)</span>（直前の <span class="math inline">\(z^{-}\)</span> によらない）。</li>
+</ul>
+<p>木の節点の間に <span class="math inline">\(1/\alpha\)</span> の値が来るときは、<span class="math inline">\(z\)</span> について線形に補間する。</p>
+<p><strong>限度があると縮約できない理由</strong>：下限 <span class="math inline">\(K_{\min}\)</span> や上限 <span class="math inline">\(K_{\max}\)</span> があると、<span class="math inline">\(K^{+}\)</span> の規則に絶対的な水準が入り、<span class="math inline">\((S, K)\)</span> を同じ倍率で変えると規則が変わってしまう。0 次同次性が壊れるので、2 次元の格子を使う。</p>
+<p><strong>効果</strong>：1 次元の縮約は、2 次元の格子に比べて桁違いに速い。Carmine-Studio の第13章の 13.5 は、同じ条件で、格子の値に縮約が収束することと、速さの違いを、rmql の実測で示している。ただし、ベガなどの感応度を、格子と縮約で比べるときの注意が、補論Bの B.5 にある。</p>
+</section>
+</section>
+<section id="a.5-縮約できない状態とモンテカルロ法への橋渡し" class="level2">
+<h2 class="anchored" data-anchor-id="a.5-縮約できない状態とモンテカルロ法への橋渡し">A.5 縮約できない状態と、モンテカルロ法への橋渡し</h2>
+<section id="a.5.1-mbs-の元本残高" class="level3">
+<h3 class="anchored" data-anchor-id="a.5.1-mbs-の元本残高">A.5.1 MBS の元本残高</h3>
+<p>パススルー型の MBS は、住宅ローンの元本と利息が、投資家にそのまま渡される。月 <span class="math inline">\(m\)</span> の期限前返済率 SMM は、年率の CPR から <span class="math display">\[
+\mathrm{SMM}_m = 1 - (1 - \mathrm{CPR}_m)^{1/12}
+\]</span> で決まる。CPR は、経過月数（シーズニング）と、借換え金利 <span class="math inline">\(f_m\)</span> の関数である。たとえば <span class="math display">\[
+\mathrm{CPR}_m = \min\Bigl(\text{上限},\ \mathrm{PSA}\times \min(0.002\,m,\ 0.06)\times \exp\bigl(\beta\,(c - f_m - \text{費用})\bigr)\Bigr)
+\]</span> （<span class="math inline">\(c\)</span> は住宅ローン金利、<span class="math inline">\(\beta\)</span> は借換え金利への感応度）という規則を置く。これは借り手の行動を表す仮定で、最適な行使ではない。</p>
+<p>毎月の残高の更新は、元利均等の返済額から、次のように書ける。月初の残高を <span class="math inline">\(B_{m-1}\)</span>、月利を <span class="math inline">\(c/12\)</span>、残りの返済月数を <span class="math inline">\(n - m + 1\)</span> として、 <span class="math display">\[
+P_m = \frac{B_{m-1}\,c/12}{1 - (1 + c/12)^{-(n - m + 1)}}, \qquad
+\text{利息} = B_{m-1}\,\frac{c}{12}, \qquad
+\text{約定元本} = P_m - \text{利息}
+\]</span> とし、期限前返済は、約定元本を引いたあとの残高に SMM を掛けた額で、 <span class="math display">\[
+B_m = \bigl(B_{m-1} - \text{約定元本}\bigr)\,\bigl(1 - \mathrm{SMM}_m\bigr)
+\]</span> となる。</p>
+<p><strong>なぜ縮約できないか</strong>：今月の返済速度 <span class="math inline">\(\mathrm{SMM}_m\)</span> が、来月の残高 <span class="math inline">\(B_m\)</span> を決め、来月の利息と約定元本の割合を決める。残高 <span class="math inline">\(B_m\)</span> は、借換え金利の過去の全経路 <span class="math inline">\(f_1, \dots, f_m\)</span> の関数である。これは、価格との比 <span class="math inline">\(S/K\)</span> のような、水準を打ち消す比では表せない。残高が経路の履歴を覚えている以上、状態は「現在の金利」だけではなく、残高を含む。</p>
+</section>
+<section id="a.5.2-tarn-の累積クーポンと生存状態" class="level3">
+<h3 class="anchored" data-anchor-id="a.5.2-tarn-の累積クーポンと生存状態">A.5.2 TARN の累積クーポンと生存状態</h3>
+<p>TARN（目標償還つき）は、累積クーポンが目標に達した日に償還される債券である。各クーポン日 <span class="math inline">\(k\)</span> のクーポンを <span class="math inline">\(c_k\)</span>（たとえば、為替から作ったレバレッジ型のクーポンを、フロアとキャップで切ったもの）として、累積を <span class="math display">\[
+A_k = \sum_{j \le k} c_j
+\]</span> と書く。償還される最初の日 <span class="math inline">\(\tau = \min\{k : A_k \ge \text{目標}\}\)</span> までの <span class="math inline">\(c_k\)</span> が支払われ、<span class="math inline">\(\tau\)</span> で償還される。<strong>目標に達した日のクーポンの扱い</strong>（その日のクーポンを目標に届く分だけに切る場合と、全額払う場合）は契約の条項である。</p>
+<p>状態は、累積 <span class="math inline">\(A_k\)</span> と、生存の印（<span class="math inline">\(\tau \ge k\)</span> か）である。クーポンは、各日の為替だけで決まる（状態を持たない）が、<strong>支払われるかどうか</strong>が、過去のクーポンの和 <span class="math inline">\(A_{k-1}\)</span> に依存する。この依存は、為替の水準では表せない。同様に、ノックアウト条項（為替が水準を超えた日に償還される）は、生存の印を運ぶ。</p>
+</section>
+<section id="a.5.3-モンテカルロ法への橋渡し" class="level3">
+<h3 class="anchored" data-anchor-id="a.5.3-モンテカルロ法への橋渡し">A.5.3 モンテカルロ法への橋渡し</h3>
+<p>状態が価格との比で縮約できず、次元の高い格子も実用的でないとき、経路ごとに状態を持ち越して、経路の平均を取る。<span class="math inline">\(N\)</span> 本の経路で、各経路 <span class="math inline">\(i\)</span> の割引キャッシュフローを <span class="math inline">\(Y^{(i)}\)</span> として、価値の推定は <span class="math display">\[
+\hat V = \frac{1}{N}\sum_{i=1}^{N} Y^{(i)}, \qquad
+\mathrm{SE} = \frac{s_Y}{\sqrt N}
+\]</span> （<span class="math inline">\(s_Y\)</span> は <span class="math inline">\(Y^{(i)}\)</span> の標本標準偏差）である。標準誤差は経路数 <span class="math inline">\(N\)</span> の平方根に反比例して小さくなる。経路ごとに、MBS では残高を 1 か月ずつ、TARN では累積クーポンと生存の印を 1 日ずつ、進める。</p>
+<p>MBS の OAS（オプション調整後スプレッド）は、すべての経路の割引率に共通の幅を足し、価値の平均が市場の価格に一致する幅として求める。OAS は、経路の乱数に依存する推定値だから、乱数の種で動き、経路数を増やすと種による散らばりが <span class="math inline">\(1/\sqrt N\)</span> で小さくなる。</p>
+<p><strong>縮約との対比</strong>：縮約できる商品（A.1〜A.4）は、1 次元の格子で、誤差を段数の増加で減らせて、計算も速い。縮約できない商品（A.5）は、モンテカルロの統計誤差が残る。ただし、TARN や MBS には、アメリカン型の転換のような、最適行使の判断がない（償還や返済は規則で自動的に起こる）ので、Longstaff–Schwartz 法のような、継続価値の回帰は必要ない。</p>
+<p><strong>注意</strong>：TARN とノックアウトの条項そのもの（目標に達した日のクーポンの扱い、ノックアウトの観測日の定め）を、独立なシミュレーションと照合する作業は、Carmine-Studio ではまだ行っていない。条項の解釈は、契約ごとに確かめる必要がある。</p>
+</section>
+</section>
+<section id="a.6-この補論のまとめ" class="level2">
+<h2 class="anchored" data-anchor-id="a.6-この補論のまとめ">A.6 この補論のまとめ</h2>
+<ul>
+<li>縮約の判定は、<strong>状態を現物で割った比が、そのまま次の状態として引き継がれるか</strong>で決まる。ヨーロピアン、ルックバック、限度のない転換価額の MSCB は、一次同次性か 0 次同次性で比に縮約できる。</li>
+<li>ルックバックは、監視日に最小値が更新される。更新式 <span class="math inline">\(w_{\text{前}}(z) = z\,w_{\text{後}}(1)\)</span>（<span class="math inline">\(z &lt; 1\)</span>）が、比の世界での最小値の更新である。固定ストライクは、変動ストライクの式に定数を足した形に還元できる。</li>
+<li>転換社債は TF の枠組みで、価値 <span class="math inline">\(V\)</span> と転換確率 <span class="math inline">\(p\)</span> を連動させる。MSCB の転換時リセットは、転換価値を 3 本のコールに分解して、閉じた式にできる。</li>
+<li>持ち越し型の MSCB は、<span class="math inline">\((S, K)\)</span> の 2 次元の格子（<span class="math inline">\(1/K\)</span> について線形に補間）か、限度がないときの <span class="math inline">\(z = S/K\)</span> の 1 次元の縮約で解く。</li>
+<li>MBS の元本残高と TARN の累積クーポンは、比に直せない。経路ごとに状態を持ち越す、モンテカルロ法で評価する。</li>
+</ul>
+<p>感応度（グリークス）の求め方と、離散の木での注意点は、補論Bで扱う。数値の実装、条件を動かす画面、照合の記録は、Carmine-Studio の第13章〜第15章と rmql を参照されたい。</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../part2_quantive_riemann/ch09_exotic_derivatives_prdc.html" class="pagination-link" aria-label="第II-9章 金利為替系デリバティブ">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">第II-9章 金利為替系デリバティブ</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../appendix/appendix_b_automatic_differentiation.html" class="pagination-link" aria-label="補論B 自動微分（AAD）の数理と、離散・不連続境界での注意点">
+        <span class="nav-page-text"><span class="chapter-title">補論B 自動微分（AAD）の数理と、離散・不連続境界での注意点</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
